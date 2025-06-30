@@ -1,5 +1,5 @@
 import { sequelize } from '../config/database.js';
-import User from './User.js';
+import User from './user.js';
 import Track from './track.js';
 import Module from './module.js';
 import Quiz from './quiz.js';
@@ -10,8 +10,10 @@ import QuizAttempt from './quizAttempt.js';
 import UserAchievement from './userAchievement.js';
 import Achievement from './achievements.js';
 import Notification from './notification.js';
+import AIQuestion from './aiQuestion.js';
+import AdminInvitationCode from './adminInvitationCode.js';
 
-// Define all relationshi ps
+// Define all relationships
 function setupRelationships() {
   // Track <-> User (Creator)
   User.hasMany(Track, { foreignKey: 'creatorId', as: 'createdTracks' });
@@ -25,9 +27,11 @@ function setupRelationships() {
   Module.hasOne(Quiz, { foreignKey: 'moduleId', as: 'quiz', onDelete: 'CASCADE' });
   Quiz.belongsTo(Module, { foreignKey: 'moduleId', as: 'module' });
 
-  // Track <-> Enrollment <-> User (Many-to-Many through Enrollment)
-  User.belongsToMany(Track, { through: Enrollment, foreignKey: 'userId', as: 'enrolledTracks' });
-  Track.belongsToMany(User, { through: Enrollment, foreignKey: 'trackId', as: 'enrolledUsers' });
+  // Enrollment associations (Enrollment is a standalone model)
+  Enrollment.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+  Enrollment.belongsTo(Track, { foreignKey: 'trackId', as: 'track' });
+  User.hasMany(Enrollment, { foreignKey: 'userId', as: 'enrollments' });
+  Track.hasMany(Enrollment, { foreignKey: 'trackId', as: 'enrollments' });
 
   // Track <-> Discussion (One-to-Many)
   Track.hasMany(Discussion, { foreignKey: 'trackId', as: 'discussions', onDelete: 'CASCADE' });
@@ -62,6 +66,20 @@ function setupRelationships() {
   // User <-> Notification (One-to-Many)
   Notification.belongsTo(User, { foreignKey: 'userId', as: 'user' });
   User.hasMany(Notification, { foreignKey: 'userId', as: 'notifications' });
+
+  // AIQuestion associations
+  AIQuestion.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+  AIQuestion.belongsTo(Module, { foreignKey: 'moduleId', as: 'module' });
+  AIQuestion.belongsTo(Track, { foreignKey: 'trackId', as: 'track' });
+  User.hasMany(AIQuestion, { foreignKey: 'userId', as: 'aiQuestions' });
+  Module.hasMany(AIQuestion, { foreignKey: 'moduleId', as: 'aiQuestions' });
+  Track.hasMany(AIQuestion, { foreignKey: 'trackId', as: 'aiQuestions' });
+
+  // AdminInvitationCode associations
+  AdminInvitationCode.belongsTo(User, { foreignKey: 'createdBy', as: 'creator' });
+  AdminInvitationCode.belongsTo(User, { foreignKey: 'usedBy', as: 'usedByUser' });
+  User.hasMany(AdminInvitationCode, { foreignKey: 'createdBy', as: 'createdInvitationCodes' });
+  User.hasMany(AdminInvitationCode, { foreignKey: 'usedBy', as: 'usedInvitationCodes' });
 }
 
 // Initialize all models
@@ -74,7 +92,8 @@ const models = {
   Discussion,
   QuizAttempt,
   UserAchievement,
-  Achievement
+  Achievement,
+  AIQuestion
 };
 
 // Export initialized models and sequelize instance
@@ -92,5 +111,7 @@ export {
   QuizAttempt,
   UserAchievement,
   Achievement,
-  Notification
+  Notification,
+  AIQuestion,
+  AdminInvitationCode
 };

@@ -1,4 +1,4 @@
-import { Enrollment, Module, Track } from '../models/index.js';
+import { Enrollment, Module, Track, User } from '../models/index.js';
 
 export const saveModuleProgress = async (req, res) => {
   try {
@@ -7,6 +7,7 @@ export const saveModuleProgress = async (req, res) => {
     const module = await Module.findByPk(moduleId, {
       include: [{
         model: Track,
+        as: 'Track',
         attributes: ['id']
       }]
     });
@@ -46,22 +47,73 @@ export const saveModuleProgress = async (req, res) => {
 
     // Calculate overall progress
     const totalModules = await Module.count({ where: { trackId: module.Track.id } });
-    const progress = Math.round((completedModules.length / totalModules) * 100);
+    let progress = Math.round((completedModules.length / totalModules) * 100);
+    let isTrackCompleted = completedModules.length === totalModules;
 
-    await enrollment.update({
-      progressData,
-      completedModules,
-      progress,
-      lastModuleId: moduleId,
-      lastAccessed: new Date()
-    });
+    // Defensive: If progress is 100, ensure all modules are in completedModules and completed is true
+    if (progress === 100 && totalModules > 0) {
+      const allModules = await Module.findAll({ where: { trackId: module.Track.id }, attributes: ['id'] });
+      const allModuleIds = allModules.map(m => m.id);
+      // Add any missing module IDs
+      completedModules = Array.from(new Set([...completedModules, ...allModuleIds]));
+      isTrackCompleted = true;
+      progress = 100;
+      // Defensive: Ensure progressData has an entry for every module
+      for (const mod of allModules) {
+        if (!progressData[mod.id]) {
+          progressData[mod.id] = {
+            completed: true,
+            lastPosition: null,
+            updatedAt: new Date()
+          };
+        } else {
+          // If already exists, ensure completed is true
+          progressData[mod.id].completed = true;
+        }
+      }
+    }
+
+    enrollment.progressData = progressData;
+    enrollment.completedModules = completedModules;
+    enrollment.progress = progress;
+    enrollment.lastModuleId = moduleId;
+    enrollment.lastAccessed = new Date();
+    enrollment.completed = isTrackCompleted;
+    enrollment.changed('progressData', true);
+    await enrollment.save();
+
+    const userId = req.user.id;
+    const user = await User.findByPk(userId);
+
+    let xpGained = 0;
+    let newBadge = null;
+    if (progress.completed) {
+      xpGained = 50; // Example: 50 XP for module completion
+      user.xp = (user.xp || 0) + xpGained;
+      await user.save();
+      // Check for new achievements
+      const { newAchievements } = await checkAchievements(userId);
+      if (newAchievements.length > 0) {
+        newBadge = newAchievements[0]; // Return the first new badge for modal
+      }
+    }
+
+    console.log('saveModuleProgress called with:', req.body);
+    console.log('User:', req.user.id, 'Track:', module.Track.id, 'Module:', moduleId);
+    console.log('Before update, progressData:', enrollment.progressData);
 
     res.json({
+      success: true,
+      xpGained,
+      newBadge,
+      xp: user.xp,
+      badges: user.badges,
       progress,
       completedModules,
       moduleProgress: progressData[moduleId]
     });
   } catch (error) {
+    console.error('saveModuleProgress error:', error);
     res.status(500).json({ error: 'Failed to save progress' });
   }
 };

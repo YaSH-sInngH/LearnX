@@ -74,6 +74,14 @@ const User = sequelize.define('User', {
   badges: {
     type: DataTypes.ARRAY(DataTypes.STRING),
     defaultValue: []
+  },
+  status: {
+    type: DataTypes.ENUM('active', 'banned', 'pending'),
+    defaultValue: 'active'
+  },
+  adminInvitationCode: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 }, {
   timestamps: true,

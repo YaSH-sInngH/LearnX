@@ -1,13 +1,36 @@
 import bcrypt from 'bcrypt';
 import { Op } from 'sequelize';
 import { v4 as uuidv4 } from 'uuid';
-import User from '../models/User.js';
+import User from '../models/user.js';
+import AdminInvitationCode from '../models/adminInvitationCode.js';
 import { generateToken } from '../utils/tokens.js';
 import { sendVerificationEmail, sendPasswordResetEmail } from '../utils/emails.js';
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role, adminInvitationCode } = req.body;
+
+    // Validate admin registration
+    if (role === 'Admin') {
+      if (!adminInvitationCode) {
+        return res.status(400).json({ message: 'Admin invitation code is required for admin registration' });
+      }
+      
+      // Check if invitation code exists and is valid
+      const invitationCode = await AdminInvitationCode.findOne({
+        where: {
+          code: adminInvitationCode,
+          isUsed: false,
+          expiresAt: {
+            [Op.or]: [null, { [Op.gt]: new Date() }]
+          }
+        }
+      });
+
+      if (!invitationCode) {
+        return res.status(400).json({ message: 'Invalid or expired admin invitation code' });
+      }
+    }
 
     const exists = await User.findOne({ where: { email } });
     if (exists) return res.status(400).json({ message: 'Email already in use' });
@@ -20,8 +43,17 @@ export const register = async (req, res) => {
       email,
       password: hashedPassword,
       role,
-      verificationToken
+      verificationToken,
+      adminInvitationCode: role === 'Admin' ? adminInvitationCode : null
     });
+
+    // Mark invitation code as used if admin registration
+    if (role === 'Admin') {
+      await AdminInvitationCode.update(
+        { isUsed: true, usedBy: user.id },
+        { where: { code: adminInvitationCode } }
+      );
+    }
 
     await sendVerificationEmail(email, verificationToken);
 

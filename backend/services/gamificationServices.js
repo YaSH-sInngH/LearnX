@@ -59,29 +59,46 @@ const calculateLevel = (xp) => {
 export const checkAchievements = async (userId) => {
   const achievements = await Achievement.findAll();
   const user = await User.findByPk(userId, {
-    include: [Enrollment, QuizAttempt]
+    include: [
+      { model: Enrollment, as: 'enrollments' },
+      { model: QuizAttempt, as: 'quizAttempts' },
+      { model: Achievement, as: 'achievements' }
+    ]
   });
-
+  const newAchievements = [];
   for (const achievement of achievements) {
-    const hasAchievement = user.Achievements?.some(a => a.id === achievement.id);
+    const hasAchievement = user.achievements?.some(a => a.id === achievement.id);
     if (hasAchievement) continue;
-
     if (checkAchievementCriteria(achievement.criteria, user)) {
       await user.addAchievement(achievement);
       await awardXP(userId, achievement.xpReward, `Achievement: ${achievement.name}`);
-      
-      // Add badge if applicable
-      if (achievement.badgeImage) {
-        await user.update({
-          badges: [...user.badges, achievement.badgeImage]
-        });
+      // Add badge image to cache if applicable
+      if (achievement.badgeImage && (!user.badges || !user.badges.includes(achievement.badgeImage))) {
+        user.badges = [...(user.badges || []), achievement.badgeImage];
+        await user.save();
       }
+      newAchievements.push(achievement);
     }
   }
+  return { newAchievements };
 };
 
 const checkAchievementCriteria = (criteria, user) => {
-  // Implement criteria checking logic
-  // Example: { type: 'completed_tracks', count: 5 }
-  return false; // Simplified for example
+  if (!criteria || !user) return false;
+  // XP-based achievement
+  if (criteria.type === 'xp' && typeof criteria.amount === 'number') {
+    return user.xp >= criteria.amount;
+  }
+  // Completed tracks achievement
+  if (criteria.type === 'completed_tracks' && typeof criteria.count === 'number') {
+    const completedTracks = user.enrollments?.filter(e => e.completed).length || 0;
+    return completedTracks >= criteria.count;
+  }
+  // Quiz attempts achievement
+  if (criteria.type === 'quiz_attempts' && typeof criteria.count === 'number') {
+    const attempts = user.quizAttempts?.length || 0;
+    return attempts >= criteria.count;
+  }
+  // Add more criteria types as needed
+  return false;
 };

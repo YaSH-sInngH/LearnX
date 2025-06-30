@@ -3,8 +3,10 @@ import { authenticate } from '../middleware/authMiddleware.js';
 import { 
   getProfile, 
   updateProfile, 
-  uploadAvatar 
+  uploadAvatar,
+  getXPHistory
 } from '../controllers/profileController.js';
+
 import multer from 'multer';
 
 const router = express.Router();
@@ -24,8 +26,11 @@ const upload = multer({
     }
   });
 
+// GOOD: static first
+router.get('/xp-history', authenticate, getXPHistory);
+
 // Public profile view (by userId)
-router.get('/:userId', getProfile);
+router.get('/:userId', authenticate, getProfile);
 
 // Protected routes (must be after public route)
 router.use(authenticate);

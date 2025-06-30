@@ -1,27 +1,36 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { createServer } from 'http';
 import { sequelize, setupRelationships } from './models/index.js';
 import authRoutes from './routes/authRoutes.js';
 import protectedRoutes from './routes/protectedRoute.js';
 import profileRoutes from './routes/profileRoutes.js';
 import trackRoutes from './routes/trackRoutes.js';
 import moduleRoutes from './routes/moduleRoutes.js';
-import discussionRoutes from './routes/discussionRoutes.js'; // Add this import
+import discussionRoutes from './routes/discussionRoutes.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import gamificationRoutes from './routes/gamificationRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import aiRoutes from './routes/aiRoutes.js';
+import { initializeSocket } from './services/socketService.js';
 
 dotenv.config();
 
 const app = express();
+const server = createServer(app);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Initialize Socket.IO
+initializeSocket(server);
 
 // Middleware
 app.use(cors());
-app.use(express.json({ limit: '10mb' })); // Increased payload limit
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Routes
@@ -34,6 +43,7 @@ app.use('/api/discussions', discussionRoutes);
 app.use('/api/gamification', gamificationRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/ai', aiRoutes);
 
 app.get('/', (req, res) => {
     res.send('LearnX API is running');
@@ -52,8 +62,9 @@ const startServer = async () => {
         await sequelize.sync({ alter: true });
         console.log('Database tables synchronized!');
         
-        app.listen(PORT, () => {
+        server.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
+            console.log(`Socket.IO initialized`);
         });
     } catch (error) {
         console.error('Unable to connect to the database:', error);

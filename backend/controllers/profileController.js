@@ -39,7 +39,7 @@ export const getProfile = async (req, res) => {
     // Format response
     const profile = {
       ...user.toJSON(),
-      avatarUrl: user.avatarUrl ? `${process.env.BASE_URL}${user.avatarUrl}` : null
+      avatarUrl: user.avatarUrl || null
     };
 
     res.json(profile);
@@ -68,7 +68,7 @@ export const updateProfile = async (req, res) => {
 
     res.json({
       ...updatedUser.toJSON(),
-      avatarUrl: updatedUser.avatarUrl ? `${process.env.BASE_URL}${updatedUser.avatarUrl}` : null
+      avatarUrl: updatedUser.avatarUrl ||  null
     });
   } catch (err) {
     console.error('Profile update error:', err);
@@ -122,3 +122,17 @@ export const uploadAvatar = async (req, res) => {
       });
     }
   };
+
+export const getXPHistory = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const events = await XPEvent.findAll({
+      where: { userId },
+      order: [['date', 'DESC']]
+    });
+    res.json(events);
+  } catch (err) {
+    console.error('XP History error:', err);
+    res.status(500).json({ error: 'Failed to fetch XP history' });
+  }
+};

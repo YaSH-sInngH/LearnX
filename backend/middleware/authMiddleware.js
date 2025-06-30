@@ -21,11 +21,18 @@ export const authenticate = (req, res, next) => {
   }
 };
 
-export const authorize = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({ message: 'Unauthorized access' });
-    }
-    next();
-  };
+export const authorize = (roles) => (req, res, next) => {
+  // Convert single role to array for consistency
+  const allowedRoles = Array.isArray(roles) ? roles : [roles];
+
+  if (!allowedRoles.includes(req.user.role)) {
+    return res.status(403).json({ 
+      message: 'Forbidden',
+      debug: {
+        requiredRoles: allowedRoles,
+        userRole: req.user.role
+      }
+    });
+  }
+  next();
 };

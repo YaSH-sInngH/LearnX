@@ -22,7 +22,8 @@ const Module = sequelize.define('Module', {
       type: DataTypes.TEXT
     },
     duration: {
-      type: DataTypes.INTEGER // minutes
+      type: DataTypes.INTEGER, // minutes
+      allowNull: true
     },
     videoDuration: {
         type: DataTypes.INTEGER, // in seconds

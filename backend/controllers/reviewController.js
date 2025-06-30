@@ -1,4 +1,5 @@
-import { Review, Track, Enrollment } from '../models/index.js';
+import { Review, Track, Enrollment, User } from '../models/index.js';
+import {sequelize} from '../models/index.js'
 
 export const createReview = async (req, res) => {
   try {
@@ -38,6 +39,7 @@ export const createReview = async (req, res) => {
 
     res.status(201).json(review);
   } catch (error) {
+    console.error('Failed to create review:', error);
     res.status(500).json({ error: 'Failed to create review' });
   }
 };
@@ -48,6 +50,7 @@ export const getTrackReviews = async (req, res) => {
       where: { trackId: req.params.trackId },
       include: [{
         model: User,
+        as: 'user',
         attributes: ['id', 'name', 'avatarUrl']
       }],
       order: [['createdAt', 'DESC']]
