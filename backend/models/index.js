@@ -9,7 +9,7 @@ import Discussion from './discussion.js';
 import QuizAttempt from './quizAttempt.js';
 import UserAchievement from './userAchievement.js';
 import Achievement from './achievements.js';
-import Notification from './notification.js';
+import Notification from './Notification.js';
 import AIQuestion from './aiQuestion.js';
 import AdminInvitationCode from './adminInvitationCode.js';
 
