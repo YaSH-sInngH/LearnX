@@ -1,5 +1,5 @@
 // API helpers for profile and user management
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000/api';
+const API_BASE = import.meta.env.VITE_API_BASE;
 
 // Get auth token from context or localStorage
 const getAuthHeaders = () => {
@@ -147,7 +147,7 @@ export async function adminManageTrack(trackId, action) {
 export async function updateUserStatus(userId, status) {
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
   const res = await fetch(
-    `${import.meta.env.VITE_API_BASE || 'http://localhost:5000/api'}/admin/users/${userId}/status`,
+    `${API_BASE}/admin/users/${userId}/status`,
     {
       method: 'PATCH',
       headers: {

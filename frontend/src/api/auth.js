@@ -1,8 +1,8 @@
 // API helpers for authentication
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000/api/auth';
+const API_BASE = import.meta.env.VITE_API_BASE;
 
 export async function login(email, password) {
-  const res = await fetch(`${API_BASE}/login`, {
+  const res = await fetch(`${API_BASE}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
@@ -11,7 +11,7 @@ export async function login(email, password) {
 }
 
 export async function signup(data) {
-  const res = await fetch(`${API_BASE}/register`, {
+  const res = await fetch(`${API_BASE}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
@@ -20,12 +20,12 @@ export async function signup(data) {
 }
 
 export async function verifyEmail(token) {
-  const res = await fetch(`${API_BASE}/verify?token=${token}`);
+  const res = await fetch(`${API_BASE}/auth/verify?token=${token}`);
   return res.json();
 }
 
 export async function forgotPassword(email) {
-  const res = await fetch(`${API_BASE}/forgot-password`, {
+  const res = await fetch(`${API_BASE}/auth/forgot-password`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email })
@@ -34,7 +34,7 @@ export async function forgotPassword(email) {
 }
 
 export async function resetPassword(token, newPassword) {
-  const res = await fetch(`${API_BASE}/reset-password`, {
+  const res = await fetch(`${API_BASE}/auth/reset-password`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ token, newPassword })
