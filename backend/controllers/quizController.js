@@ -57,7 +57,7 @@ export const submitQuiz = async (req, res) => {
     if (passed) {
       // Call the main progress endpoint to ensure defensive logic is used
       try {
-        const apiBase = process.env.API_BASE || 'http://localhost:5001/api';
+        const apiBase = process.env.API_BASE || 'http://localhost:8080/api';
         const progressRes = await axios.post(
           `${apiBase}/tracks/${module.Track.id}/progress`,
           {

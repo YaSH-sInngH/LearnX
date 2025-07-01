@@ -43,7 +43,7 @@ export default function NotificationDropdown() {
         setUnreadCount(prev => prev + 1);
         toast.info(newNotification.title, {
           description: newNotification.message,
-          duration: 5001
+          duration: 8080
         });
       });
     }
