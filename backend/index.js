@@ -55,7 +55,7 @@ app.get('/', (req, res) => {
     res.send('LearnX API is running');
 });
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 9876;
 
 const startServer = async () => {
     try {
