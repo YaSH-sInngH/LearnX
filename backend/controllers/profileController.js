@@ -5,6 +5,7 @@ import fs from 'fs/promises';
 import { v4 as uuidv4 } from 'uuid';
 import { supabase } from '../services/supabase.js';
 import sharp from 'sharp';
+import { Achievement } from '../models/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,7 +32,10 @@ export const getProfile = async (req, res) => {
           'resetToken',
           'resetTokenExpiry'
         ] 
-      }
+      },
+      include: [
+        { model: Achievement, as: 'achievements', through: { attributes: ['earnedAt'] } }
+      ]
     });
 
     if (!user) return res.status(404).json({ message: 'User not found' });
@@ -39,7 +43,8 @@ export const getProfile = async (req, res) => {
     // Format response
     const profile = {
       ...user.toJSON(),
-      avatarUrl: user.avatarUrl || null
+      avatarUrl: user.avatarUrl || null,
+      badges: user.achievements?.filter(a => a.badgeImage).map(a => a.badgeImage) || []
     };
 
     res.json(profile);

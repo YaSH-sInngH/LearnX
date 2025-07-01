@@ -30,7 +30,7 @@ export default function AdminInvitationCodes() {
     setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/admin/invitation-codes', {
+      const response = await fetch('http://localhost:5001/api/admin/invitation-codes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ export default function AdminInvitationCodes() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/admin/invitation-codes/${id}`, {
+      const response = await fetch(`http://localhost:5001/api/admin/invitation-codes/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

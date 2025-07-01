@@ -282,11 +282,22 @@ export default function ProfileCard({ profile, isOwnProfile = false, onUpdate })
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-success-600 dark:text-success-400">
-                    {(profile?.achievements?.filter(a => a.badgeImage).length) || 0}
+                    {profile.badges ? profile.badges.length : 0}
                   </div>
                   <div className="text-xs text-secondary-500 dark:text-secondary-400">Badges Earned</div>
                 </div>
               </div>
+            )}
+
+            {/* Badges */}
+            {profile.badges && profile.badges.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {profile.badges.map((badge, i) => (
+                  <img key={i} src={badge} alt="Badge" className="w-10 h-10 rounded-full border" />
+                ))}
+              </div>
+            ) : (
+              <div>No badges earned yet</div>
             )}
           </div>
         )}

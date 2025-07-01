@@ -139,7 +139,7 @@ export default function LearnerDashboard() {
                 </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-secondary-600 dark:text-secondary-400">Badges Earned</p>
-                  <p className="text-2xl font-bold text-secondary-900 dark:text-white">{getRecentBadges().length}</p>
+                  <p className="text-2xl font-bold text-secondary-900 dark:text-white">{profile.badges ? profile.badges.length : 0}</p>
                 </div>
               </div>
             </div>

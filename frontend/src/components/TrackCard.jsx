@@ -158,12 +158,12 @@ export default function TrackCard({ track, userProgress }) {
         
         {/* Action Button */}
         <div className="mt-6">
-          <div className="btn btn-primary w-full justify-center">
+          <Link to={`/tracks/${track.id}`} className="btn btn-primary w-full justify-center">
             {userProgress ? 'Continue Learning' : 'Start Learning'}
             <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
-          </div>
+          </Link>
         </div>
       </div>
     </div>

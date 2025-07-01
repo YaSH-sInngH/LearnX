@@ -30,7 +30,7 @@ function setupRelationships() {
   // Enrollment associations (Enrollment is a standalone model)
   Enrollment.belongsTo(User, { foreignKey: 'userId', as: 'user' });
   Enrollment.belongsTo(Track, { foreignKey: 'trackId', as: 'track' });
-  User.hasMany(Enrollment, { foreignKey: 'userId', as: 'enrollments' });
+  User.hasMany(Enrollment, { as: 'enrollments', foreignKey: 'userId' });
   Track.hasMany(Enrollment, { foreignKey: 'trackId', as: 'enrollments' });
 
   // Track <-> Discussion (One-to-Many)
@@ -55,13 +55,13 @@ function setupRelationships() {
   QuizAttempt.belongsTo(User, { foreignKey: 'userId', as: 'user' });
   QuizAttempt.belongsTo(Quiz, { foreignKey: 'quizId', as: 'quiz' });
   QuizAttempt.belongsTo(Module, { foreignKey: 'moduleId', as: 'module' });
-  User.hasMany(QuizAttempt, { foreignKey: 'userId', as: 'quizAttempts' });
+  User.hasMany(QuizAttempt, { as: 'quizAttempts', foreignKey: 'userId' });
   Quiz.hasMany(QuizAttempt, { foreignKey: 'quizId', as: 'quizAttempts' });
   Module.hasMany(QuizAttempt, { foreignKey: 'moduleId', as: 'quizAttempts' });
 
   // User <-> Achievement (Many-to-Many through UserAchievement)
-  User.belongsToMany(Achievement, { through: UserAchievement, as: 'achievements' });
-  Achievement.belongsToMany(User, { through: UserAchievement, as: 'users' });
+  User.belongsToMany(Achievement, { through: UserAchievement, as: 'achievements', foreignKey: 'UserId' });
+  Achievement.belongsToMany(User, { through: UserAchievement, as: 'users', foreignKey: 'AchievementId' });
 
   // User <-> Notification (One-to-Many)
   Notification.belongsTo(User, { foreignKey: 'userId', as: 'user' });

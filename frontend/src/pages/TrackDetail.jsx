@@ -83,22 +83,21 @@ export default function TrackDetail() {
     }
   };
 
-  const renderStars = (rating) => {
-    const stars = [];
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-    
-    for (let i = 0; i < 5; i++) {
-      if (i < fullStars) {
-        stars.push(<span key={i} className="text-yellow-400">★</span>);
-      } else if (i === fullStars && hasHalfStar) {
-        stars.push(<span key={i} className="text-yellow-400">☆</span>);
-      } else {
-        stars.push(<span key={i} className="text-gray-300 dark:text-gray-600">☆</span>);
-      }
-    }
-    return stars;
-  };
+  const renderStars = (rating, setRating) => (
+    <div className="flex items-center space-x-1 mb-2">
+      {[1,2,3,4,5].map(n => (
+        <button
+          key={n}
+          type="button"
+          onClick={() => setRating(n)}
+          className={`text-2xl focus:outline-none ${n <= rating ? 'text-yellow-400' : 'text-gray-300'}`}
+          aria-label={`Rate ${n} star${n > 1 ? 's' : ''}`}
+        >
+          ★
+        </button>
+      ))}
+    </div>
+  );
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
@@ -155,7 +154,7 @@ export default function TrackDetail() {
             <h1 className="text-4xl font-bold mb-4">{track.title}</h1>
             <div className="flex items-center space-x-4 mb-4">
               <div className="flex items-center">
-                {renderStars(track.rating)}
+                {renderStars(track.rating, setReviewRating)}
                 <span className="ml-2">({track.rating.toFixed(1)})</span>
               </div>
               <span className={`px-3 py-1 rounded-full text-sm font-medium ${getDifficultyColor(track.difficulty)}`}>
@@ -234,7 +233,7 @@ export default function TrackDetail() {
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center space-x-2">
                               <span className="font-medium">{review.user?.name}</span>
-                              <div className="flex">{renderStars(review.rating)}</div>
+                              <div className="flex">{renderStars(review.rating, setReviewRating)}</div>
                             </div>
                             <span className="text-sm text-gray-500 dark:text-gray-400">
                               {new Date(review.createdAt).toLocaleDateString()}
@@ -250,13 +249,25 @@ export default function TrackDetail() {
                 </div>
 
                 {userProgress && !reviews.some(r => r.user?.id === user.id) && (
-                  <form onSubmit={handleReviewSubmit}>
-                    <label>Rating:</label>
-                    <select value={reviewRating} onChange={e => setReviewRating(e.target.value)}>
-                      {[5,4,3,2,1].map(n => <option key={n} value={n}>{n}</option>)}
-                    </select>
-                    <textarea value={reviewComment} onChange={e => setReviewComment(e.target.value)} />
-                    <button type="submit">Submit Review</button>
+                  <form onSubmit={handleReviewSubmit} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6 max-w-lg">
+                    <h4 className="text-lg font-semibold mb-4">Leave a Review</h4>
+                    <label className="block text-sm font-medium mb-2">Your Rating</label>
+                    {renderStars(reviewRating, setReviewRating)}
+                    <label className="block text-sm font-medium mb-2 mt-4">Your Comment</label>
+                    <textarea
+                      value={reviewComment}
+                      onChange={e => setReviewComment(e.target.value)}
+                      rows={4}
+                      className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-white"
+                      placeholder="Share your thoughts about this track..."
+                      required
+                    />
+                    <button
+                      type="submit"
+                      className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                    >
+                      Submit Review
+                    </button>
                   </form>
                 )}
               </div>
