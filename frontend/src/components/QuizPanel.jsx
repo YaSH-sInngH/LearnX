@@ -240,7 +240,7 @@ export default function QuizPanel({
                     <div className="mt-6">
                       <button
                         onClick={handleSubmitQuiz}
-                        disabled={submitting || Object.values(currentAnswers).some(answer => !answer)}
+                        disabled={submitting || Object.values(currentAnswers).some(answer => answer === '' || answer === undefined)}
                         className="w-full bg-blue-600 text-white py-2 px-4 rounded font-medium hover:bg-blue-700 disabled:opacity-50"
                       >
                         {submitting ? 'Submitting...' : 'Submit Quiz'}

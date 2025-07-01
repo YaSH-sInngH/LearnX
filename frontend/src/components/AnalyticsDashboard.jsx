@@ -31,7 +31,7 @@ export default function AnalyticsDashboard({ trackId }) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center p-8">
+      <div className="flex items-center justify-center p-8 bg-white dark:bg-gray-800">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
@@ -39,7 +39,7 @@ export default function AnalyticsDashboard({ trackId }) {
 
   if (!analytics) {
     return (
-      <div className="text-center p-8 text-gray-500">
+      <div className="text-center p-8 text-gray-500 dark:text-gray-400">
         No analytics data available
       </div>
     );

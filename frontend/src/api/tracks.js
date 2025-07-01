@@ -65,7 +65,23 @@ export async function saveModuleProgress(trackId, moduleId, progressData) {
       ...progressData
     })
   });
-  return res.json();
+  if (!res.ok) {
+    // Try to parse error, fallback to text
+    let errorMsg = 'Failed to update progress';
+    try {
+      const errorData = await res.json();
+      errorMsg = errorData.error || errorMsg;
+    } catch {
+      errorMsg = await res.text();
+    }
+    throw new Error(errorMsg);
+  }
+  // Only parse JSON if content-type is correct
+  const contentType = res.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    return res.json();
+  }
+  return {};
 }
 
 // Quiz API functions

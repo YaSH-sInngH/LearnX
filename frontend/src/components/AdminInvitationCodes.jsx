@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+const API_BASE = import.meta.env.VITE_API_BASE;
 
 export default function AdminInvitationCodes() {
   const [invitationCodes, setInvitationCodes] = useState([]);
@@ -9,7 +10,7 @@ export default function AdminInvitationCodes() {
   const fetchInvitationCodes = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/admin/invitation-codes', {
+      const response = await fetch(`${API_BASE}/admin/invitation-codes`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -86,11 +87,11 @@ export default function AdminInvitationCodes() {
 
   return (
     <div className="space-y-6">
-      <div className="card p-6">
-        <h3 className="text-lg font-semibold mb-4">Generate Admin Invitation Code</h3>
+      <div className="card p-6 bg-white dark:bg-gray-800">
+        <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Generate Admin Invitation Code</h3>
         <div className="flex gap-4 items-end">
           <div>
-            <label className="block text-sm font-medium mb-2">Expires in (days)</label>
+            <label className="block text-sm font-medium mb-2 text-gray-900 dark:text-white">Expires in (days)</label>
             <input
               type="number"
               value={expiresInDays}
@@ -111,41 +112,41 @@ export default function AdminInvitationCodes() {
       </div>
 
       <div className="card p-6">
-        <h3 className="text-lg font-semibold mb-4">Invitation Codes</h3>
+        <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Invitation Codes</h3>
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead className="bg-gray-50 dark:bg-gray-700">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider">
                   Code
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider">
                   Created By
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider">
                   Used By
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider">
                   Expires
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-white uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white divide-y divide-gray-200 dark:divide-gray-700">
               {invitationCodes.map((code) => (
                 <tr key={code.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-mono">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900 dark:text-white">
                     {code.code}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                     {code.creator?.name || 'Unknown'}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                     {code.usedByUser?.name || '-'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">

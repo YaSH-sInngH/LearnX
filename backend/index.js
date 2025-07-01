@@ -27,7 +27,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 initializeSocket(server);
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: [
+        "https://learn-x-jet.vercel.app",
+        "http://localhost:5173"
+    ],
+    credentials: true,
+}));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 

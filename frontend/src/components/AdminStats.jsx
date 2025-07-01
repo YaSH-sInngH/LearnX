@@ -21,7 +21,7 @@ export default function AdminStats({ stats }) {
   const categoryCounts = stats.categories?.map(c => parseInt(c.count)) || [];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 text-gray-900 dark:text-white">
       {/* Users by Role */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         <h4 className="text-lg font-semibold mb-4">Users by Role</h4>
@@ -40,7 +40,7 @@ export default function AdminStats({ stats }) {
       </div>
 
       {/* Daily Active Learners */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 dark:text-white">
         <h4 className="text-lg font-semibold mb-4">Daily Active Learners (Last 30 Days)</h4>
         <Line
           data={{

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { verifyEmail } from '../api/auth';
 import { toast } from 'react-toastify';
@@ -8,16 +8,18 @@ export default function VerifyEmail() {
   const navigate = useNavigate();
   const [status, setStatus] = useState('Verifying...');
   const [isVerified, setIsVerified] = useState(false);
+  const handled = useRef(false);
 
   useEffect(() => {
     const token = params.get('token');
     if (token) {
       verifyEmail(token).then(res => {
+        if (handled.current) return;
+        handled.current = true;
         if (res.message && res.message.includes('verified')) {
           setStatus('Email verified successfully!');
           setIsVerified(true);
           toast.success('Email verified successfully!');
-          // Redirect to login after 2 seconds
           setTimeout(() => {
             navigate('/login');
           }, 2000);
@@ -26,6 +28,8 @@ export default function VerifyEmail() {
           toast.error(res.message || 'Verification failed.');
         }
       }).catch(error => {
+        if (handled.current) return;
+        handled.current = true;
         setStatus('Verification failed.');
         toast.error('Verification failed.');
       });
