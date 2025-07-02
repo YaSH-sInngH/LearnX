@@ -123,7 +123,7 @@ export default function DiscussionPanel({ trackId, moduleId }) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
       <h3 className="font-semibold mb-2">Discussion</h3>
-      <div className="border rounded bg-gray-50 p-2 max-h-64 overflow-y-auto mb-4 dark:border-gray-700">
+      <div className="border rounded bg-gray-50 dark:bg-gray-900 p-2 max-h-64 overflow-y-auto mb-4 dark:border-gray-700">
         {messages.length === 0 && <div className="text-gray-500 dark:text-gray-400 text-sm">No messages yet. Start the discussion!</div>}
         {renderMessages(tree)}
         <div ref={messagesEndRef} />

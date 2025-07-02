@@ -11,7 +11,7 @@ class SocketService {
       return this.socket;
     }
 
-    const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:9876';
+    const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:6166';
     this.socket = io(SOCKET_URL, {
       auth: { token },
       transports: ['websocket', 'polling']

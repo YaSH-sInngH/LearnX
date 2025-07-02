@@ -28,10 +28,27 @@ initializeSocket(server);
 
 // Middleware
 app.use(cors({
-    origin: [
-        "https://learn-x-jet.vercel.app",
-        "http://localhost:5173"
-    ],
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        
+        const allowedOrigins = [
+            "https://learn-x-jet.vercel.app",
+            "http://localhost:5173",
+            "http://localhost:45705"
+        ];
+        
+        // Allow any localhost port for development
+        if (origin.startsWith('http://localhost:')) {
+            return callback(null, true);
+        }
+        
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            return callback(null, true);
+        }
+        
+        return callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
 }));
 app.use(express.json({ limit: '10mb' }));
@@ -55,7 +72,7 @@ app.get('/', (req, res) => {
     res.send('LearnX API is running');
 });
 
-const PORT = process.env.PORT || 9876;
+const PORT = process.env.PORT || 6166;
 
 const startServer = async () => {
     try {
