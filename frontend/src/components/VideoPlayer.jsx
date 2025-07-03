@@ -180,9 +180,9 @@ export default function VideoPlayer({
       {/* Overlay Controls */}
       <div className={`absolute inset-0 transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
         {/* Progress Bar */}
-        <div className="absolute bottom-16 left-0 right-0 px-4">
+        <div className="absolute bottom-20 md:bottom-16 left-0 right-0 px-3 md:px-4">
           <div 
-            className="w-full h-1 bg-gray-600 rounded-full cursor-pointer"
+            className="w-full h-1 md:h-1 bg-gray-600 rounded-full cursor-pointer"
             onClick={handleSeek}
           >
             <div 
@@ -192,9 +192,110 @@ export default function VideoPlayer({
           </div>
         </div>
 
-        {/* Main Controls */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-          <div className="flex items-center justify-between">
+        {/* Main Controls - Mobile Layout */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 md:p-4">
+          {/* Mobile Controls - Stacked Layout */}
+          <div className="block md:hidden">
+            {/* Top Row - Play/Pause and Time */}
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center space-x-3">
+                <button
+                  onClick={togglePlay}
+                  className="text-white hover:text-blue-400 transition-colors"
+                >
+                  {isPlaying ? (
+                    <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                    </svg>
+                  ) : (
+                    <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  )}
+                </button>
+
+                <div className="flex items-center space-x-1 text-white">
+                  <span className="text-xs font-medium">{formatTime(currentTime)}</span>
+                  <span className="text-xs">/</span>
+                  <span className="text-xs font-medium">{formatTime(duration)}</span>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                {/* Transcript Toggle */}
+                <button
+                  onClick={() => setShowTranscript(!showTranscript)}
+                  className={`text-white hover:text-blue-400 transition-colors ${showTranscript ? 'text-blue-400' : ''}`}
+                  title="Toggle Transcript"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </button>
+
+                {/* Fullscreen */}
+                <button
+                  onClick={toggleFullscreen}
+                  className="text-white hover:text-blue-400 transition-colors"
+                >
+                  {isFullscreen ? (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                    </svg>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Bottom Row - Volume and Speed */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                {/* Volume Control */}
+                <button
+                  onClick={toggleMute}
+                  className="text-white hover:text-blue-400 transition-colors"
+                >
+                  {volume === 0 || videoRef.current?.muted ? (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    </svg>
+                  )}
+                </button>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  value={volume}
+                  onChange={handleVolumeChange}
+                  className="w-20 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+
+              {/* Playback Speed */}
+              <select
+                value={playbackRate}
+                onChange={(e) => setPlaybackRate(parseFloat(e.target.value))}
+                className="bg-black/50 text-white border border-gray-600 rounded px-2 py-1 text-xs min-w-[60px]"
+              >
+                {playbackRates.map(rate => (
+                  <option key={rate} value={rate}>{rate}x</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Desktop Controls - Single Row Layout */}
+          <div className="hidden md:flex items-center justify-between">
             {/* Left Controls */}
             <div className="flex items-center space-x-4">
               <button
@@ -296,14 +397,14 @@ export default function VideoPlayer({
 
       {/* Transcript Sidebar */}
       {showTranscript && (
-        <div className="absolute right-0 top-0 bottom-0 w-80 bg-black/90 text-white p-4 overflow-y-auto">
+        <div className="absolute right-0 top-0 bottom-0 w-full sm:w-80 md:w-80 bg-black/95 text-white p-3 md:p-4 overflow-y-auto">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold">Transcript</h3>
+            <h3 className="font-semibold text-base md:text-lg">Transcript</h3>
             <button
               onClick={() => setShowTranscript(false)}
               className="text-gray-400 hover:text-white"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -317,7 +418,7 @@ export default function VideoPlayer({
 
       {/* Completion Badge */}
       {isCompleted && (
-        <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+        <div className="absolute top-3 right-3 md:top-4 md:right-4 bg-green-500 text-white px-2 py-1 md:px-3 md:py-1 rounded-full text-xs md:text-sm font-medium">
           ✓ Completed
         </div>
       )}

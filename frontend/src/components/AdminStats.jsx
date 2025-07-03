@@ -1,9 +1,9 @@
 import React from 'react';
 import { Bar, Pie, Line } from 'react-chartjs-2';
-import { Chart, CategoryScale, LinearScale, BarElement, ArcElement, PointElement, LineElement, Tooltip, Legend, TimeScale } from 'chart.js';
+import { Chart, CategoryScale, LinearScale, BarElement, ArcElement, PointElement, LineElement, Tooltip, Legend, TimeScale, Filler } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 
-Chart.register(CategoryScale, LinearScale, BarElement, ArcElement, PointElement, LineElement, Tooltip, Legend, TimeScale);
+Chart.register(CategoryScale, LinearScale, BarElement, ArcElement, PointElement, LineElement, Tooltip, Legend, TimeScale, Filler);
 
 export default function AdminStats({ stats }) {
   if (!stats) return null;
@@ -23,20 +23,23 @@ export default function AdminStats({ stats }) {
   return (
     <div className="space-y-8 text-gray-900 dark:text-white">
       {/* Users by Role */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+      <div style={{ width: 500, height: 500, margin: '0 auto' }} className="bg-white dark:bg-gray-800 rounded-lg dark:text-white shadow-md p-6">
         <h4 className="text-lg font-semibold mb-4">Users by Role</h4>
-        <Pie
-          data={{
-            labels: roleLabels,
-            datasets: [{
-              data: roleCounts,
-              backgroundColor: ['#3b82f6', '#a78bfa', '#f59e42', '#ef4444'],
-            }]
-          }}
-          options={{
-            plugins: { legend: { position: 'bottom' } }
-          }}
-        />
+        <div style={{ width: 400, height: 400, margin: '0 auto' }}>
+          <Pie
+            data={{
+              labels: roleLabels,
+              datasets: [{
+                data: roleCounts,
+                backgroundColor: ['#0099ff', '#ff0066', '#99ff66', '#9999ff'],
+              }]
+            }}
+            options={{
+              maintainAspectRatio: false,
+              plugins: { legend: { position: 'bottom' } }
+            }}
+          />
+        </div>
       </div>
 
       {/* Daily Active Learners */}

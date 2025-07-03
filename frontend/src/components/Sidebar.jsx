@@ -84,18 +84,18 @@ export default function Sidebar({ profile, onProfileUpdate }) {
   };
 
   return (
-    <aside className="w-80 h-full flex flex-col">
+    <aside className="w-full sm:w-64 md:w-72 lg:w-80 h-full flex flex-col">
       {/* Profile Card */}
-      <div className="p-6 border-b border-white/20 dark:border-secondary-700/20">
+      <div className="p-4 sm:p-6 border-b border-white/20 dark:border-secondary-700/20 mt-116 sm:mt-0">
         <ProfileCard 
           profile={displayProfile} 
           isOwnProfile={true} 
           onUpdate={onProfileUpdate} 
         />
       </div>
-
+  
       {/* Navigation */}
-      <nav className="flex-1 p-6">
+      <nav className="flex-1 p-4 sm:p-6">
         <div className="space-y-2">
           <h3 className="text-xs font-semibold text-secondary-500 dark:text-secondary-400 uppercase tracking-wider mb-4">
             Navigation
@@ -106,31 +106,31 @@ export default function Sidebar({ profile, onProfileUpdate }) {
               <Link
                 key={link.to}
                 to={link.to}
-                className={`flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 group ${
+                className={`flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2 sm:py-3 rounded-xl text-sm font-medium transition-all duration-200 group ${
                   isActive 
                     ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 shadow-soft' 
                     : 'text-secondary-700 dark:text-secondary-300 hover:bg-white/50 dark:hover:bg-secondary-800/50 hover:text-primary-600 dark:hover:text-primary-400'
                 }`}
               >
-                <div className={`transition-colors duration-200 ${
+                <div className={`transition-colors duration-200 flex-shrink-0 ${
                   isActive 
                     ? 'text-primary-600 dark:text-primary-400' 
                     : 'text-secondary-500 dark:text-secondary-400 group-hover:text-primary-500 dark:group-hover:text-primary-400'
                 }`}>
                   {link.icon}
                 </div>
-                <span>{link.label}</span>
+                <span className="truncate">{link.label}</span>
                 {isActive && (
-                  <div className="ml-auto w-2 h-2 bg-primary-500 rounded-full"></div>
+                  <div className="ml-auto w-2 h-2 bg-primary-500 rounded-full flex-shrink-0"></div>
                 )}
               </Link>
             );
           })}
         </div>
       </nav>
-
+  
       {/* Footer */}
-      <div className="p-6 border-t border-white/20 dark:border-secondary-700/20">
+      <div className="p-4 sm:p-6 border-t border-white/20 dark:border-secondary-700/20">
         <div className="text-center">
           <p className="text-xs text-secondary-500 dark:text-secondary-400">
             © 2024 LearnX Platform

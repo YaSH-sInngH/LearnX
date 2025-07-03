@@ -58,6 +58,7 @@ const User = sequelize.define('User', {
   },
   avatarUrl: {
     type: DataTypes.STRING,
+    field: 'avatarUrl',
     allowNull: true
   },
   xp: {

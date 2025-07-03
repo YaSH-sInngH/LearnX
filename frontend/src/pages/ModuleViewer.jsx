@@ -140,7 +140,7 @@ export default function ModuleViewer() {
                 </svg>
               </button>
               <div>
-                <h1 className="text-xl font-semibold text-gray-900 dark:text-white">{module.title}</h1>
+                <h1 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white truncate max-w-xs sm:max-w-none">{module.title}</h1>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Module {module.order}</p>
               </div>
             </div>
@@ -157,12 +157,12 @@ export default function ModuleViewer() {
           </div>
         </div>
       </div>
-
+  
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="flex flex-col lg:flex-row gap-6">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-3 sm:py-6">
+        <div className="flex flex-col lg:flex-row gap-3 sm:gap-6">
           {/* Video Player Column (60% width) */}
-          <div className="lg:w-3/5">
+          <div className="w-full lg:w-3/5">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden dark:border-gray-700">
               <VideoPlayer
                 videoUrl={module.videoUrl}
@@ -173,10 +173,10 @@ export default function ModuleViewer() {
               />
             </div>
           </div>
-
+  
           {/* Sidebar Columns (40% width) */}
-          <div className={`lg:w-2/5 ${isSidebarCollapsed ? 'hidden lg:block' : 'block'}`}>
-            <div className="space-y-6">
+          <div className={`w-full lg:w-2/5 ${isSidebarCollapsed ? 'hidden lg:block' : 'block'}`}>
+            <div className="space-y-3 sm:space-y-6">
               {/* Notes Panel (20% width) */}
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:border-gray-700">
                 <NotesPanel
@@ -185,7 +185,7 @@ export default function ModuleViewer() {
                   isCompleted={isVideoCompleted}
                 />
               </div>
-
+  
               {/* Quiz/Resources Panel (20% width) */}
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:border-gray-700">
                 <QuizPanel

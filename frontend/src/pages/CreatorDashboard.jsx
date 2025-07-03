@@ -97,102 +97,101 @@ export default function CreatorDashboard() {
 
   return (
     <DashboardLayout profile={profile} onProfileUpdate={setProfile}>
-      <div className="max-w-7xl mx-auto py-8">
+      <div className="max-w-7xl mx-auto py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8 mt-16">
         {/* Header */}
-        <div className="mb-8 flex justify-between items-center">
+        <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Creator Dashboard</h1>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">Track your content performance and analytics</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Creator Dashboard</h1>
+            <p className="text-gray-600 dark:text-gray-300 mt-1 sm:mt-2 text-sm sm:text-base">Track your content performance and analytics</p>
           </div>
           <Link
             to="/dashboard/creator/tracks"
-            className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors flex items-center space-x-2"
+            className="bg-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center space-x-2 text-sm sm:text-base w-full sm:w-auto"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
             <span>Manage Tracks</span>
           </Link>
         </div>
-
+  
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
             <div className="flex items-center">
               <div className="p-2 bg-blue-100 rounded-lg">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
                 </svg>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Total Enrollments</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.totalLearners}</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300">Total Enrollments</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{stats.totalLearners}</p>
               </div>
             </div>
           </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+  
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
             <div className="flex items-center">
               <div className="p-2 bg-green-100 rounded-lg">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Published Tracks</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.publishedTracks}</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300">Published Tracks</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{stats.publishedTracks}</p>
               </div>
             </div>
           </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+  
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
             <div className="flex items-center">
               <div className="p-2 bg-purple-100 rounded-lg">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Total Modules</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.totalModules}</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300">Total Modules</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{stats.totalModules}</p>
               </div>
             </div>
           </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+  
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
             <div className="flex items-center">
               <div className="p-2 bg-yellow-100 rounded-lg">
-                <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                 </svg>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Avg Rating</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.avgRating}</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300">Avg Rating</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{stats.avgRating}</p>
               </div>
             </div>
           </div>
         </div>
-
+  
         {/* Tabs */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <div className="border-b border-gray-200">
-            <nav className="flex space-x-8 px-6">
+            <nav className="flex px-4 sm:px-6 overflow-x-auto scrollbar-hide">
               {[
                 { id: 'overview', name: 'Overview', icon: 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z' },
-                { id: 'analytics', name: 'Analytics', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2m0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
-                { id: 'recent', name: 'Recent Activity', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' }
+                { id: 'analytics', name: 'Analytics', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2m0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' }
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 ${
+                  className={`py-3 sm:py-4 px-1 mr-6 sm:mr-8 border-b-2 font-medium text-sm flex items-center space-x-2 whitespace-nowrap ${
                     activeTab === tab.id
                       ? 'border-purple-500 text-purple-600'
                       : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
                   }`}
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={tab.icon} />
                   </svg>
                   <span>{tab.name}</span>
@@ -200,8 +199,8 @@ export default function CreatorDashboard() {
               ))}
             </nav>
           </div>
-
-          <div className="p-6">
+  
+          <div className="p-4 sm:p-6">
             {activeTab === 'overview' && (
               <div className="space-y-6">
                 {/* Recent Tracks */}
@@ -212,18 +211,18 @@ export default function CreatorDashboard() {
                       <p className="text-gray-500 dark:text-gray-400 mb-4">No tracks created yet</p>
                       <Link
                         to="/dashboard/creator/tracks"
-                        className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                        className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors inline-block"
                       >
                         Create Your First Track
                       </Link>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                       {tracks.slice(0, 6).map((track) => (
                         <div key={track.id} className="bg-white dark:bg-gray-800 border rounded-lg p-4 hover:shadow-md transition-shadow">
                           <div className="flex items-center justify-between mb-2">
-                            <h4 className="font-medium text-gray-900 dark:text-white truncate">{track.title}</h4>
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(track.isPublished ? 'published' : 'draft')}`}>
+                            <h4 className="font-medium text-gray-900 dark:text-white truncate pr-2">{track.title}</h4>
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium flex-shrink-0 ${getStatusColor(track.isPublished ? 'published' : 'draft')}`}>
                               {track.isPublished ? 'Published' : 'Draft'}
                             </span>
                           </div>
@@ -237,56 +236,56 @@ export default function CreatorDashboard() {
                     </div>
                   )}
                 </div>
-
+  
                 {/* Quick Actions */}
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                     <Link
                       to="/dashboard/creator/tracks"
                       className="bg-purple-50 dark:bg-gray-900 border border-purple-200 dark:border-purple-800 rounded-lg p-4 hover:bg-purple-100 dark:hover:bg-purple-800 transition-colors"
                     >
                       <div className="flex items-center space-x-3">
-                        <div className="p-2 bg-purple-100 rounded-lg">
-                          <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="p-2 bg-purple-100 rounded-lg flex-shrink-0">
+                          <svg className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                           </svg>
                         </div>
-                        <div>
+                        <div className="min-w-0">
                           <h4 className="font-medium text-gray-900 dark:text-white">Create New Track</h4>
                           <p className="text-sm text-gray-600 dark:text-gray-300">Start building your next course</p>
                         </div>
                       </div>
                     </Link>
-
+  
                     <Link
                       to="/dashboard/creator/tracks"
                       className="bg-blue-50 dark:bg-gray-900 border border-blue-200 dark:border-blue-800 rounded-lg p-4 hover:bg-blue-100 dark:hover:bg-blue-800 transition-colors"
                     >
                       <div className="flex items-center space-x-3">
-                        <div className="p-2 bg-blue-100 rounded-lg">
-                          <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="p-2 bg-blue-100 rounded-lg flex-shrink-0">
+                          <svg className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                           </svg>
                         </div>
-                        <div>
+                        <div className="min-w-0">
                           <h4 className="font-medium text-gray-900 dark:text-white">Manage Tracks</h4>
                           <p className="text-sm text-gray-600 dark:text-gray-300">Edit existing tracks and modules</p>
                         </div>
                       </div>
                     </Link>
-
+  
                     <button
                       onClick={() => setActiveTab('analytics')}
-                      className="bg-green-50 dark:bg-gray-900 border border-green-200 dark:border-green-800 rounded-lg p-4 hover:bg-green-100 dark:hover:bg-green-800 transition-colors text-left"
+                      className="bg-green-50 dark:bg-gray-900 border border-green-200 dark:border-green-800 rounded-lg p-4 hover:bg-green-100 dark:hover:bg-green-800 transition-colors text-left w-full"
                     >
                       <div className="flex items-center space-x-3">
-                        <div className="p-2 bg-green-100 rounded-lg">
-                          <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="p-2 bg-green-100 rounded-lg flex-shrink-0">
+                          <svg className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2m0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                           </svg>
                         </div>
-                        <div>
+                        <div className="min-w-0">
                           <h4 className="font-medium text-gray-900 dark:text-white">View Analytics</h4>
                           <p className="text-sm text-gray-600 dark:text-gray-300">Track performance and insights</p>
                         </div>
@@ -296,7 +295,7 @@ export default function CreatorDashboard() {
                 </div>
               </div>
             )}
-
+  
             {activeTab === 'analytics' && (
               <div className="space-y-6">
                 {tracks.length === 0 ? (
@@ -304,7 +303,7 @@ export default function CreatorDashboard() {
                     <p className="text-gray-500 dark:text-gray-400 mb-4">No tracks available for analytics</p>
                     <Link
                       to="/dashboard/creator/tracks"
-                      className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                      className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors inline-block"
                     >
                       Create Your First Track
                     </Link>
@@ -329,22 +328,13 @@ export default function CreatorDashboard() {
                         ))}
                       </select>
                     </div>
-
+  
                     {/* Analytics Dashboard */}
                     {selectedTrackId && (
                       <AnalyticsDashboard trackId={selectedTrackId} />
                     )}
                   </div>
                 )}
-              </div>
-            )}
-
-            {activeTab === 'recent' && (
-              <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Activity</h3>
-                <div className="bg-gray-50 rounded-lg p-6 text-center">
-                  <p className="text-gray-500 dark:text-gray-400">Recent activity feed will be implemented here</p>
-                </div>
               </div>
             )}
           </div>

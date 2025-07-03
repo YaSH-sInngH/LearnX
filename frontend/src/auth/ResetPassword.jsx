@@ -40,7 +40,7 @@ export default function ResetPassword() {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white dark:bg-gray-800 rounded shadow text-center">
-      <h2 className="text-2xl font-bold mb-4">Reset Password</h2>
+      <h2 className="text-2xl font-bold dark:text-white mb-4">Reset Password</h2>
       <p className="text-gray-600 dark:text-gray-300 mb-4">
         Enter your new password below.
       </p>
@@ -50,20 +50,20 @@ export default function ResetPassword() {
           placeholder="New Password" 
           value={newPassword} 
           onChange={e => setNewPassword(e.target.value)} 
-          className="w-full mb-2 p-2 border rounded" 
+          className="w-full mb-2 p-2 border rounded dark:text-white" 
           required 
           disabled={isLoading}
         />
         <button 
           type="submit" 
-          className="w-full bg-blue-600 text-white p-2 rounded disabled:opacity-50"
+          className="w-full bg-blue-600 text-white p-2 rounded disabled:opacity-50 dark:text-white"
           disabled={isLoading}
         >
           {isLoading ? 'Resetting...' : 'Set New Password'}
         </button>
       </form>
-      <div className="mt-2 text-sm">
-        <a href="/login" className="text-blue-600">Back to Login</a>
+      <div className="mt-2 text-sm ">
+        <a href="/login" className="text-blue-600 dark:text-white">Back to Login</a>
       </div>
     </div>
   );

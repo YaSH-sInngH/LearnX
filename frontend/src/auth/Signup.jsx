@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from './AuthProvider';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import AnimatedBackground from '../components/AnimatedBackground';
 
 export default function Signup() {
   const { signup } = useAuth();
@@ -89,7 +90,8 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-secondary-900 dark:via-secondary-800 dark:to-primary-900 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
+      <AnimatedBackground />
       <div className="w-full max-w-md">
         {/* Logo and Header */}
         <div className="text-center mb-8">
@@ -101,7 +103,7 @@ export default function Signup() {
           <h1 className="text-3xl font-bold text-secondary-900 dark:text-white font-display">
             Join LearnX
           </h1>
-          <p className="text-secondary-600 dark:text-secondary-300 mt-2">
+          <p className="text-secondary-600 dark:text-white mt-2">
             Start your learning journey today
           </p>
         </div>

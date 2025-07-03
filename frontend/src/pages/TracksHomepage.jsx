@@ -166,28 +166,28 @@ export default function TracksHomepage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
           <div className="text-center">
-            <h1 className="text-4xl font-bold mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 leading-tight">
               Discover Amazing Learning Tracks
             </h1>
-            <p className="text-xl mb-8 text-blue-100">
+            <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-blue-100 px-4 sm:px-0">
               Master new skills with expert-led courses and hands-on projects
             </p>
             
             {/* Search Bar */}
-            <form onSubmit={handleSearch} className="max-w-2xl mx-auto">
-              <div className="flex">
+            <form onSubmit={handleSearch} className="max-w-2xl mx-auto px-4 sm:px-0">
+              <div className="flex flex-col sm:flex-row">
                 <input
                   type="text"
                   placeholder="Search for tracks, skills, or creators..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 px-4 py-3 rounded-l-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:placeholder-gray-400"
+                  className="flex-1 px-4 py-3 rounded-t-lg sm:rounded-l-lg sm:rounded-tr-none text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:placeholder-gray-400 text-sm sm:text-base"
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-blue-700 hover:bg-blue-800 rounded-r-lg transition-colors"
+                  className="px-6 py-3 bg-blue-700 hover:bg-blue-800 rounded-b-lg sm:rounded-r-lg sm:rounded-bl-none transition-colors text-sm sm:text-base font-medium"
                 >
                   Search
                 </button>
@@ -198,8 +198,8 @@ export default function TracksHomepage() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8">
           {/* Filter Sidebar */}
           <FilterSidebar
             filters={filters}
@@ -211,22 +211,22 @@ export default function TracksHomepage() {
           {/* Track Grid */}
           <div className="flex-1">
             {/* Header with results and sort */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6">
               <div className="mb-4 sm:mb-0">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white leading-tight">
                   {searchQuery ? `Search results for "${searchQuery}"` : 'All Tracks'}
                 </h2>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mt-1">
                   {totalResults} {totalResults === 1 ? 'track' : 'tracks'} found
                 </p>
               </div>
               
-              <div className="flex items-center space-x-4">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Sort by:</label>
+              <div className="flex items-center space-x-2 sm:space-x-4">
+                <label className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">Sort by:</label>
                 <select
                   value={sortBy}
                   onChange={(e) => handleSortChange(e.target.value)}
-                  className="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-r-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:placeholder-gray-400"
+                  className="px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:placeholder-gray-400 text-xs sm:text-sm"
                 >
                   <option value="popular">Most Popular</option>
                   <option value="newest">Newest</option>
@@ -237,13 +237,13 @@ export default function TracksHomepage() {
 
             {/* Loading State */}
             {loading && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {[...Array(6)].map((_, i) => (
                   <div key={i} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 animate-pulse">
-                    <div className="bg-gray-300 h-48 rounded mb-4"></div>
+                    <div className="bg-gray-300 h-32 sm:h-40 lg:h-48 rounded mb-4"></div>
                     <div className="space-y-2">
-                      <div className="bg-gray-300 h-4 rounded"></div>
-                      <div className="bg-gray-300 h-4 rounded w-3/4"></div>
+                      <div className="bg-gray-300 h-3 sm:h-4 rounded"></div>
+                      <div className="bg-gray-300 h-3 sm:h-4 rounded w-3/4"></div>
                     </div>
                   </div>
                 ))}
@@ -252,7 +252,7 @@ export default function TracksHomepage() {
 
             {/* Track Grid */}
             {!loading && tracks.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {tracks.map((track) => (
                   <TrackCard key={track.id} track={track} />
                 ))}
@@ -261,14 +261,14 @@ export default function TracksHomepage() {
 
             {/* Empty State */}
             {!loading && tracks.length === 0 && (
-              <div className="text-center py-12">
+              <div className="text-center py-8 sm:py-12 px-4">
                 <div className="text-gray-400 dark:text-gray-500 mb-4">
-                  <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="mx-auto h-10 w-10 sm:h-12 sm:w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No tracks found</h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-2">No tracks found</h3>
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
                   Try adjusting your search or filters to find what you're looking for.
                 </p>
               </div>

@@ -6,10 +6,11 @@ import { v4 as uuidv4 } from 'uuid';
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll({
-      attributes: ['id', 'name', 'email', 'role', 'status', 'createdAt'],
+      attributes: ['id', 'name', 'email', 'role', 'status', 'createdAt', 'avatarUrl'],
       order: [['createdAt', 'DESC']]
     });
     res.json(users);
+    console.log(users);
   } catch (error) {
     res.status(500).json({ error: 'Failed to get users' });
   }
