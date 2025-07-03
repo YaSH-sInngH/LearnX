@@ -16,10 +16,10 @@
       });
       res.status(201).json(track);
     } catch (error) {
-      console.error('Error creating track:', error); // Add detailed logging
+      console.error('Error creating track:', error);
       res.status(500).json({ 
         error: 'Failed to create track',
-        details: error.message // Send error details to frontend
+        details: error.message
       });
     }
   };

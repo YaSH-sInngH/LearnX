@@ -36,6 +36,7 @@ export default function CreatorTracks() {
   const [saving, setSaving] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
+  const [trackFormErrors, setTrackFormErrors] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -69,6 +70,7 @@ export default function CreatorTracks() {
       tags: [],
       coverImage: null
     });
+    setTrackFormErrors({});
     setEditingTrack(null);
     setShowCreateModal(true);
   };
@@ -88,6 +90,18 @@ export default function CreatorTracks() {
   };
 
   const handleSaveTrack = async () => {
+    const errors = {};
+    if (!trackForm.title.trim()) errors.title = 'Track title is required';
+    if (!trackForm.description.trim()) errors.description = 'Track description is required';
+    if (!trackForm.category.trim()) errors.category = 'Track category is required';
+    if (!trackForm.estimatedDuration.trim()) errors.estimatedDuration = 'Track estimated duration is required';
+
+    setTrackFormErrors(errors);
+
+    if (Object.keys(errors).length > 0) {
+      return; // Don't proceed if there are errors
+    }
+
     setSaving(true);
     try {
       const { coverImage, ...trackData } = trackForm;
@@ -396,6 +410,9 @@ export default function CreatorTracks() {
                       placeholder="Enter track title"
                       className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
                     />
+                    {trackFormErrors.title && (
+                      <p className="text-red-600 text-xs mt-1">{trackFormErrors.title}</p>
+                    )}
                   </div>
   
                   <div>
@@ -407,6 +424,9 @@ export default function CreatorTracks() {
                       rows={3}
                       className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
                     />
+                    {trackFormErrors.description && (
+                      <p className="text-red-600 text-xs mt-1">{trackFormErrors.description}</p>
+                    )}
                   </div>
   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -419,6 +439,9 @@ export default function CreatorTracks() {
                         placeholder="e.g., Programming, Design"
                         className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
                       />
+                      {trackFormErrors.category && (
+                        <p className="text-red-600 text-xs mt-1">{trackFormErrors.category}</p>
+                      )}
                     </div>
   
                     <div>
@@ -444,6 +467,9 @@ export default function CreatorTracks() {
                       placeholder="120"
                       className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
                     />
+                    {trackFormErrors.estimatedDuration && (
+                      <p className="text-red-600 text-xs mt-1">{trackFormErrors.estimatedDuration}</p>
+                    )}
                   </div>
   
                   <div>
