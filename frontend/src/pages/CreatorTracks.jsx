@@ -413,7 +413,7 @@ export default function CreatorTracks() {
                         }
                       }}
                       placeholder="Enter track title"
-                      className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
+                      className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base dark:bg-gray-700 dark:text-gray-200"
                     />
                     {trackFormErrors.title && (
                       <p className="text-red-600 text-xs mt-1">{trackFormErrors.title}</p>
@@ -432,7 +432,7 @@ export default function CreatorTracks() {
                       }}
                       placeholder="Describe your track"
                       rows={3}
-                      className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
+                      className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base dark:bg-gray-700 dark:text-gray-200"
                     />
                     {trackFormErrors.description && (
                       <p className="text-red-600 text-xs mt-1">{trackFormErrors.description}</p>
@@ -452,7 +452,7 @@ export default function CreatorTracks() {
                           }
                         }}
                         placeholder="e.g., Programming, Design"
-                        className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
+                        className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base dark:bg-gray-700 dark:text-gray-200"
                       />
                       {trackFormErrors.category && (
                         <p className="text-red-600 text-xs mt-1">{trackFormErrors.category}</p>
@@ -464,7 +464,7 @@ export default function CreatorTracks() {
                       <select
                         value={trackForm.difficulty}
                         onChange={(e) => setTrackForm({ ...trackForm, difficulty: e.target.value })}
-                        className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
+                        className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base dark:bg-gray-700 dark:text-gray-200"
                       >
                         <option value="Beginner">Beginner</option>
                         <option value="Intermediate">Intermediate</option>
@@ -485,7 +485,7 @@ export default function CreatorTracks() {
                         }
                       }}
                       placeholder="120"
-                      className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
+                      className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base dark:bg-gray-700 dark:text-gray-200"
                     />
                     {trackFormErrors.estimatedDuration && (
                       <p className="text-red-600 text-xs mt-1">{trackFormErrors.estimatedDuration}</p>
@@ -498,7 +498,7 @@ export default function CreatorTracks() {
                       type="file"
                       accept="image/*"
                       onChange={(e) => setTrackForm({ ...trackForm, coverImage: e.target.files[0] })}
-                      className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
+                      className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600"
                     />
                     {trackForm.coverImage && (
                       <div className="mt-2">
