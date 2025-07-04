@@ -352,3 +352,26 @@ export async function createReview(trackId, rating, comment) {
   }
   return res.json();
 }
+
+export async function uploadAttachment(file) {
+  const formData = new FormData();
+  formData.append('attachment', file);
+  
+  // Remove Content-Type header - let browser set it with boundary
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  };
+  
+  const res = await fetch(`${API_BASE}/discussions/attachment`, {
+    method: 'POST',
+    headers,
+    body: formData
+  });
+  
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.error || 'Failed to upload attachment');
+  }
+  
+  return await res.json();
+}

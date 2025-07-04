@@ -406,7 +406,12 @@ export default function CreatorTracks() {
                     <input
                       type="text"
                       value={trackForm.title}
-                      onChange={(e) => setTrackForm({ ...trackForm, title: e.target.value })}
+                      onChange={(e) => {
+                        setTrackForm({ ...trackForm, title: e.target.value });
+                        if (trackFormErrors.title && e.target.value.trim()) {
+                          setTrackFormErrors({ ...trackFormErrors, title: undefined });
+                        }
+                      }}
                       placeholder="Enter track title"
                       className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
                     />
@@ -419,7 +424,12 @@ export default function CreatorTracks() {
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
                     <textarea
                       value={trackForm.description}
-                      onChange={(e) => setTrackForm({ ...trackForm, description: e.target.value })}
+                      onChange={(e) => {
+                        setTrackForm({ ...trackForm, description: e.target.value });
+                        if (trackFormErrors.description && e.target.value.trim()) {
+                          setTrackFormErrors({ ...trackFormErrors, description: undefined });
+                        }
+                      }}
                       placeholder="Describe your track"
                       rows={3}
                       className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
@@ -435,7 +445,12 @@ export default function CreatorTracks() {
                       <input
                         type="text"
                         value={trackForm.category}
-                        onChange={(e) => setTrackForm({ ...trackForm, category: e.target.value })}
+                        onChange={(e) => {
+                          setTrackForm({ ...trackForm, category: e.target.value });
+                          if (trackFormErrors.category && e.target.value.trim()) {
+                            setTrackFormErrors({ ...trackFormErrors, category: undefined });
+                          }
+                        }}
                         placeholder="e.g., Programming, Design"
                         className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
                       />
@@ -463,7 +478,12 @@ export default function CreatorTracks() {
                     <input
                       type="number"
                       value={trackForm.estimatedDuration}
-                      onChange={(e) => setTrackForm({ ...trackForm, estimatedDuration: e.target.value })}
+                      onChange={(e) => {
+                        setTrackForm({ ...trackForm, estimatedDuration: e.target.value });
+                        if (trackFormErrors.estimatedDuration && e.target.value.trim()) {
+                          setTrackFormErrors({ ...trackFormErrors, estimatedDuration: undefined });
+                        }
+                      }}
                       placeholder="120"
                       className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
                     />

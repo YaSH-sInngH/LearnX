@@ -6,21 +6,21 @@ export default function DashboardLayout({ profile, onProfileUpdate, children }) 
 
   return (
     <div className="min-h-screen flex bg-gradient-to-br from-secondary-50 to-primary-50 dark:from-secondary-900 dark:to-primary-900">
+      {/* Overlay for mobile */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden" 
+          onClick={() => setSidebarOpen(false)}
+        ></div>
+      )}
+      
       {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-40 w-80 glass border-r border-white/20 dark:border-secondary-700/20 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-all duration-300 ease-in-out md:relative md:translate-x-0 md:flex md:flex-col`}>
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 max-w-[90vw] sm:w-72 md:w-80 glass border-r border-white/20 dark:border-secondary-700/20 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-all duration-300 ease-in-out md:relative md:translate-x-0 md:flex md:flex-col`}>
         <Sidebar 
           profile={profile} 
           onProfileUpdate={onProfileUpdate} 
         />
       </div>
-      
-      {/* Overlay for mobile */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 md:hidden" 
-          onClick={() => setSidebarOpen(false)}
-        ></div>
-      )}
       
       {/* Main content */}
       <main className="flex-1 min-h-screen">
@@ -58,4 +58,4 @@ export default function DashboardLayout({ profile, onProfileUpdate, children }) 
       </main>
     </div>
   );
-} 
+}

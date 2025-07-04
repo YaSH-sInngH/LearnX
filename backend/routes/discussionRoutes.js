@@ -25,10 +25,10 @@ router.use((req, res, next) => {
 });
 
 // Create new discussion (with optional attachment)
-router.post('/tracks/:trackId', 
+router.post('/attachment', 
   authenticate, 
   upload.single('attachment'), 
-  createDiscussion
+  uploadAttachment
 );
 
 // Get all discussions for a track
@@ -52,8 +52,6 @@ router.post('/', authenticate, createDiscussion);
 // Edit a message
 router.put('/:id', authenticate, editDiscussion);
 
-// Upload attachment
-router.post('/attachment', authenticate, uploadAttachment);
 
 // Get discussions for a track
 router.get('/track/:trackId', authenticate, getTrackDiscussions);

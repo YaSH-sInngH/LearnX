@@ -84,9 +84,9 @@ export default function Sidebar({ profile, onProfileUpdate }) {
   };
 
   return (
-    <aside className="w-full sm:w-64 md:w-72 lg:w-80 h-full flex flex-col">
-      {/* Profile Card */}
-      <div className="p-4 sm:p-6 border-b border-white/20 dark:border-secondary-700/20 mt-116 sm:mt-0">
+    <aside className="w-full max-w-[90vw] sm:w-64 md:w-72 lg:w-80 h-full flex flex-col">
+      {/* Profile Card */}  
+      <div className="p-2 sm:p-4 border-b border-white/20 dark:border-secondary-700/20 mt-116 sm:mt-0 max-w-xs mx-auto">
         <ProfileCard 
           profile={displayProfile} 
           isOwnProfile={true} 

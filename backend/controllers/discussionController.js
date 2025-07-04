@@ -1,12 +1,15 @@
 import { Discussion, User, Track } from '../models/index.js';
 import { supabase } from '../services/supabase.js';
 import { notifyDiscussionReply } from '../services/notificationService.js';
+import multer from 'multer';
 
 export const createDiscussion = async (req, res) => {
     try {
         const { trackId, moduleId, content, parentId, attachments } = req.body;
         const userId = req.user.id;
         
+        console.log('attachments from body:', attachments, typeof attachments);
+
         let attachmentUrls = [];
         if (req.files) {
             for (const file of req.files) {
@@ -27,7 +30,7 @@ export const createDiscussion = async (req, res) => {
             moduleId,
             content,
             parentId: parentId || null,
-            attachments: attachmentUrls,
+            attachments: attachments || [],
             userId
         });
 
@@ -109,7 +112,33 @@ export const deleteDiscussion = async (req, res) => {
 };
 
 export const uploadAttachment = async (req, res) => {
-    // handle file upload and return URL
+    try {
+        console.log('uploadAttachment called');
+        if (!req.file) {
+            console.log('No file uploaded');
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+        const userId = req.user.id;
+        const fileName = `discussions/${userId}/${Date.now()}-${req.file.originalname}`;
+        console.log('Uploading to Supabase:', fileName);
+
+        const { data, error } = await supabase.storage
+            .from('discussion-attachments')
+            .upload(fileName, req.file.buffer, {
+                contentType: req.file.mimetype
+            });
+
+        if (error) {
+            console.error('Supabase upload error:', error);
+            return res.status(500).json({ error: 'Failed to upload to Supabase', details: error.message });
+        }
+        const url = `${process.env.SUPABASE_URL}/storage/v1/object/public/discussion-attachments/${fileName}`;
+        console.log('Upload successful:', url);
+        res.json({ url });
+    } catch (error) {
+        console.error('uploadAttachment error:', error);
+        res.status(500).json({ error: 'Failed to upload attachment', details: error.message });
+    }
 };
 
 export const editDiscussion = async (req, res) => {

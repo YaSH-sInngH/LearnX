@@ -16,6 +16,7 @@ import notificationRoutes from './routes/notificationRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
 import { initializeSocket } from './services/socketService.js';
+import multer from 'multer';
 
 dotenv.config();
 
@@ -70,6 +71,14 @@ app.use('/api/ai', aiRoutes);
 
 app.get('/', (req, res) => {
     res.send('LearnX API is running');
+});
+
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    console.error('Multer error:', err);
+    return res.status(400).json({ error: err.message });
+  }
+  next(err);
 });
 
 const PORT = process.env.PORT || 6166;
