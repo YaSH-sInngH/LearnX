@@ -256,7 +256,7 @@ export default function AdminDashboard() {
                           placeholder="Search users by name or email..."
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
-                          className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 text-sm sm:text-base"
+                          className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 text-sm sm:text-base dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600"
                         />
                       </div>
                       <select
