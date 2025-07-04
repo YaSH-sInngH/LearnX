@@ -19,6 +19,7 @@ export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [passwordStrength, setPasswordStrength] = useState({ score: 0, label: '', color: '', suggestions: [] });
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -26,6 +27,51 @@ export default function Signup() {
     if (errors[e.target.name]) {
       setErrors({ ...errors, [e.target.name]: '' });
     }
+    // Password strength feedback
+    if (e.target.name === 'password') {
+      setPasswordStrength(evaluatePassword(e.target.value));
+    }
+  };
+
+  const evaluatePassword = (password) => {
+    let score = 0;
+    let suggestions = [];
+    let label = 'Weak';
+    let color = 'red';
+
+    // Word count
+    const words = password.trim().split(/\s+/).filter(Boolean);
+    if (words.length > 4) {
+      score += 2;
+    } else {
+      suggestions.push('Use more than 4 words');
+    }
+
+    // Length
+    if (password.length >= 12) score += 2;
+    else if (password.length >= 8) score += 1;
+    else suggestions.push('Use at least 8 characters');
+
+    // Character variety
+    if (/[A-Z]/.test(password)) score += 1;
+    else suggestions.push('Add uppercase letters');
+    if (/[a-z]/.test(password)) score += 1;
+    else suggestions.push('Add lowercase letters');
+    if (/[0-9]/.test(password)) score += 1;
+    else suggestions.push('Add numbers');
+    if (/[^A-Za-z0-9\s]/.test(password)) score += 1;
+    else suggestions.push('Add special characters');
+
+    // Label and color
+    if (score >= 6) {
+      label = 'Strong';
+      color = 'green';
+    } else if (score >= 4) {
+      label = 'Medium';
+      color = 'orange';
+    }
+
+    return { score, label, color, suggestions };
   };
 
   const validateForm = () => {
@@ -43,10 +89,16 @@ export default function Signup() {
       newErrors.email = 'Please enter a valid email address';
     }
 
+    // Password validation
+    const words = form.password.trim().split(/\s+/).filter(Boolean);
     if (!form.password) {
       newErrors.password = 'Password is required';
-    } else if (form.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+    } else if (form.password.length < 8) {
+      newErrors.password = 'Password must be at least 8 characters';
+    } else if (words.length <= 4) {
+      newErrors.password = 'Password must be longer than 4 words';
+    } else if (passwordStrength.score < 4) {
+      newErrors.password = 'Password is too weak. Try making it longer and more complex.';
     }
 
     if (form.password !== form.confirmPassword) {
@@ -205,6 +257,25 @@ export default function Signup() {
                     </svg>
                   )}
                 </button>
+              </div>
+              {/* Password Strength Meter and Suggestions */}
+              <div className="mt-2">
+                <div className="h-2 rounded bg-gray-200 dark:bg-gray-700">
+                  <div
+                    style={{ width: `${(passwordStrength.score / 7) * 100}%`, backgroundColor: passwordStrength.color }}
+                    className="h-2 rounded transition-all duration-300"
+                  ></div>
+                </div>
+                <div className="flex items-center mt-1">
+                  <span className={`text-xs font-semibold mr-2`} style={{ color: passwordStrength.color }}>{passwordStrength.label} password</span>
+                  {form.password && passwordStrength.suggestions.length > 0 && (
+                    <ul className="ml-2 text-xs text-gray-500 dark:text-gray-400 list-disc list-inside">
+                      {passwordStrength.suggestions.map((s, i) => (
+                        <li key={i}>{s}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </div>
               {errors.password && (
                 <p className="mt-1 text-sm text-danger-600 dark:text-danger-400">{errors.password}</p>
