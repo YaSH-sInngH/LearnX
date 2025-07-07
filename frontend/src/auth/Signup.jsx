@@ -90,13 +90,10 @@ export default function Signup() {
     }
 
     // Password validation
-    const words = form.password.trim().split(/\s+/).filter(Boolean);
     if (!form.password) {
       newErrors.password = 'Password is required';
-    } else if (form.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
-    } else if (words.length <= 4) {
-      newErrors.password = 'Password must be longer than 4 words';
+    } else if (form.password.length <= 4) {
+      newErrors.password = 'Password must be longer than 4 characters';
     } else if (passwordStrength.score < 4) {
       newErrors.password = 'Password is too weak. Try making it longer and more complex.';
     }
