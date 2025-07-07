@@ -17,6 +17,7 @@ import CreatorTracks from './pages/CreatorTracks';
 import AdminDashboard from './pages/AdminDashboard';
 import TrackModules from './pages/TrackModules';
 import Navbar from './components/NavbarFixed';
+import PublicProfile from './pages/PublicProfile';
 
 function Unauthorized() {
   return <div className="p-8 text-red-600">Unauthorized Access</div>;
@@ -115,6 +116,7 @@ function App() {
             </Route>
 
             {/* Default route */}
+            <Route path="/profile/:userId" element={<PublicProfile />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </AppLayout>

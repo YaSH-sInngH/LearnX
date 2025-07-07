@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getTrackDiscussions, getModuleDiscussions, createDiscussion, editDiscussion, deleteDiscussion, uploadAttachment } from '../api/tracks';
 import { useAuth } from '../auth/AuthProvider';
+import { Link } from 'react-router-dom';
 
 export default function DiscussionPanel({ trackId, moduleId }) {
   const { user } = useAuth();
@@ -112,8 +113,10 @@ export default function DiscussionPanel({ trackId, moduleId }) {
   const renderMessages = (msgs, level = 0) => msgs.map(msg => (
     <div key={msg.id} style={{ marginLeft: level * 24 }} className="mb-3 pb-2 border-b last:border-b-0 last:mb-0 last:pb-0 dark:bg-gray-900 dark:border-gray-700">
       <div className="flex items-center space-x-2 mb-1 ">
-        <img src={msg.user?.avatarUrl || '/default-avatar.png'} alt={msg.user?.name} className="w-6 h-6 rounded-full" />
-        <span className="font-semibold text-sm text-gray-800 dark:text-gray-100">{msg.user?.name || 'User'}</span>
+        <Link to={msg.user?.id ? `/profile/${msg.user.id}` : '#'} className="flex items-center group">
+          <img src={msg.user?.avatarUrl || '/default-avatar.png'} alt={msg.user?.name} className="w-6 h-6 rounded-full border-2 border-transparent group-hover:border-blue-500 transition" />
+          <span className="font-semibold text-sm text-gray-800 dark:text-gray-100 group-hover:text-blue-600 transition ml-1">{msg.user?.name || 'User'}</span>
+        </Link>
         <span className="text-xs text-gray-500 dark:text-gray-400">{new Date(msg.createdAt).toLocaleString()}</span>
       </div>
       {editingId === msg.id ? (

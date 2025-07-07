@@ -2,6 +2,7 @@ import { User, Track, Module, Enrollment, Review } from '../models/index.js';
 import { sequelize } from '../models/index.js';
 import AdminInvitationCode from '../models/adminInvitationCode.js';
 import { v4 as uuidv4 } from 'uuid';
+import { notifyTrackApproval } from '../services/notificationService.js';
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -108,6 +109,7 @@ export const manageTrack = async (req, res) => {
     switch (action) {
       case 'publish':
         await track.update({ isPublished: true });
+        await notifyTrackApproval(track.creatorId, track.title, true);
         break;
       case 'unpublish':
         await track.update({ isPublished: false });

@@ -7,6 +7,7 @@ import DashboardLayout from '../components/DashboardLayout';
 import MarkdownEditor from '../components/MarkdownEditor';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { createPortal } from 'react-dom';
 
 export default function CreatorTracks() {
   const { user } = useAuth();
@@ -94,7 +95,7 @@ export default function CreatorTracks() {
     if (!trackForm.title.trim()) errors.title = 'Track title is required';
     if (!trackForm.description.trim()) errors.description = 'Track description is required';
     if (!trackForm.category.trim()) errors.category = 'Track category is required';
-    if (!trackForm.estimatedDuration.trim()) errors.estimatedDuration = 'Track estimated duration is required';
+    if (!String(trackForm.estimatedDuration).trim()) errors.estimatedDuration = 'Track estimated duration is required';
 
     setTrackFormErrors(errors);
 
@@ -384,8 +385,8 @@ export default function CreatorTracks() {
         )}
   
         {/* Create/Edit Track Modal */}
-        {showCreateModal && (
-          <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex items-center justify-center p-4">
+        {showCreateModal && createPortal(
+          <div className="fixed inset-0 z-[150] bg-black bg-opacity-40 flex items-center justify-center p-4">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="p-4 sm:p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -532,7 +533,8 @@ export default function CreatorTracks() {
                 </div>
               </div>
             </div>
-          </div>
+          </div>,
+          document.getElementById('modal-root')
         )}
   
         {/* Add Module Modal */}

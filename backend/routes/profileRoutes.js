@@ -30,7 +30,7 @@ const upload = multer({
 router.get('/xp-history', authenticate, getXPHistory);
 
 // Public profile view (by userId)
-router.get('/:userId', authenticate, getProfile);
+router.get('/:userId', getProfile);
 
 // Protected routes (must be after public route)
 router.use(authenticate);

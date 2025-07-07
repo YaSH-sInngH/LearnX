@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function FilterSidebar({ filters, onFilterChange, categories, creators }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,6 +41,15 @@ export default function FilterSidebar({ filters, onFilterChange, categories, cre
   };
 
   const hasActiveFilters = filters.category || filters.difficulty || filters.minRating > 0 || filters.creatorId;
+
+  // Helper to render a clickable creator name (for future use if you display a list)
+  function CreatorName({ creator }) {
+    return (
+      <Link to={creator.id ? `/profile/${creator.id}` : '#'} className="text-blue-600 hover:underline">
+        {creator.name}
+      </Link>
+    );
+  }
 
   return (
   <div className="w-full lg:w-64">
@@ -278,7 +288,7 @@ export default function FilterSidebar({ filters, onFilterChange, categories, cre
               {filters.creatorId && (
                 <span className="inline-flex items-center px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900 dark:to-pink-900 text-purple-800 dark:text-purple-200 shadow-md border border-purple-200 dark:border-purple-700">
                   <span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
-                  Creator: {creators?.find(c => c.id === filters.creatorId)?.name}
+                  Creator: <CreatorName creator={creators?.find(c => c.id === filters.creatorId)} />
                 </span>
               )}
             </div>

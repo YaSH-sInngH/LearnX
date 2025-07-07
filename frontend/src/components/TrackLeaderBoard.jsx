@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getTrackLeaderboard } from '../api/profile';
+import { Link } from 'react-router-dom';
 
 export default function TrackLeaderboard({ trackId }) {
   const [leaders, setLeaders] = useState([]);
@@ -57,23 +58,27 @@ export default function TrackLeaderboard({ trackId }) {
                   
                   {/* Enhanced avatar with status ring */}
                   <div className="relative flex-shrink-0">
-                    <img 
-                      src={entry.user.avatarUrl || '/default-avatar.png'} 
-                      alt={entry.user.name}
-                      className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border-2 border-white dark:border-secondary-700 shadow-lg ring-2 ring-primary-500/20 transition-all duration-300 group-hover:ring-primary-500/40"
-                      onError={(e) => {
-                        e.target.src = '/default-avatar.png';
-                      }}
-                    />
+                    <Link to={entry.user.id ? `/profile/${entry.user.id}` : '#'}>
+                      <img 
+                        src={entry.user.avatarUrl || '/default-avatar.png'} 
+                        alt={entry.user.name}
+                        className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border-2 border-white dark:border-secondary-700 shadow-lg ring-2 ring-primary-500/20 transition-all duration-300 group-hover:ring-primary-500/40"
+                        onError={(e) => {
+                          e.target.src = '/default-avatar.png';
+                        }}
+                      />
+                    </Link>
                     {/* Online indicator */}
                     <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-success-500 border-2 border-white dark:border-secondary-800 rounded-full shadow-sm animate-pulse"></div>
                   </div>
                   
                   {/* Enhanced name and details */}
                   <div className="flex-1 min-w-0">
-                    <span className="text-sm sm:text-base font-semibold text-secondary-900 dark:text-white truncate block group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
-                      {entry.user.name}
-                    </span>
+                    <Link to={entry.user.id ? `/profile/${entry.user.id}` : '#'} className="group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
+                      <span className="text-sm sm:text-base font-semibold text-secondary-900 dark:text-white truncate block">
+                        {entry.user.name}
+                      </span>
+                    </Link>
                     <div className="flex items-center space-x-2 mt-0.5">
                       <span className="text-xs text-secondary-500 dark:text-secondary-400 font-medium">Rank #{i + 1}</span>
                     </div>

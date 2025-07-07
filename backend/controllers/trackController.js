@@ -3,6 +3,7 @@
   import sharp from 'sharp';
   import { Op } from 'sequelize';
   import { sequelize } from '../config/database.js';
+  import { notifyNewEnrollment } from '../services/notificationService.js';
 
   export const createTrack = async (req, res) => {
     if (req.user.role !== 'Creator') {
@@ -396,6 +397,11 @@
         return res.status(400).json({ error: 'Already enrolled' });
       }
       const enrollment = await Enrollment.create({ trackId, userId });
+      // Notify the creator of the track
+      const track = await Track.findByPk(trackId, { include: [{ model: User, as: 'Creator' }] });
+      if (track && track.Creator) {
+        await notifyNewEnrollment(track.Creator.id, track.title, req.user.name);
+      }
       res.status(201).json(enrollment);
     } catch (error) {
       res.status(500).json({ error: 'Failed to enroll in track' });

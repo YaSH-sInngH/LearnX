@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getTrackById, enrollInTrack, getTrackProgress, getTrackReviews, createReview } from '../api/tracks';
 import { useAuth } from '../auth/AuthProvider';
 import { toast } from 'react-toastify';
@@ -207,15 +207,17 @@ export default function TrackDetail() {
                   <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
                     <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">About the instructor</h3>
                     <div className="flex items-center space-x-3 sm:space-x-4">
-                      <img
-                        src={track.Creator.avatarUrl || '/default-avatar.png'}
-                        alt={track.Creator.name}
-                        className="w-12 h-12 sm:w-16 sm:h-16 rounded-full"
-                      />
-                      <div>
-                        <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">{track.Creator.name}</h4>
-                        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Track Creator</p>
-                      </div>
+                      <Link to={track.Creator.id ? `/profile/${track.Creator.id}` : '#'} className="flex items-center space-x-3 sm:space-x-4 group">
+                        <img
+                          src={track.Creator.avatarUrl || '/default-avatar.png'}
+                          alt={track.Creator.name}
+                          className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-transparent group-hover:border-blue-500 transition"
+                        />
+                        <div>
+                          <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 transition">{track.Creator.name}</h4>
+                          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">Track Creator</p>
+                        </div>
+                      </Link>
                     </div>
                   </div>
                 )}

@@ -3,7 +3,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { getProfile, getAllUsers, updateUserRole, getPlatformStats, manageTrack, getAllTracks, adminManageTrack, updateUserStatus } from '../api/profile';
 import { toast } from 'react-toastify';
 import DashboardLayout from '../components/DashboardLayout';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import AdminStats from '../components/AdminStats';
 import AdminInvitationCodes from '../components/AdminInvitationCodes';
 
@@ -359,24 +359,25 @@ export default function AdminDashboard() {
                                   </td>
                                   <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
                                     <div className="flex items-center">
-                                      <img
-                                        src={user.avatarUrl || '/default-avatar.png'}
-                                        alt={user.name}
-                                        className="w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover flex-shrink-0"
-                                      />
-                                       {console.log(user.avatarUrl, user.name)}
-                                      <div className="ml-2 sm:ml-4 min-w-0">
-                                        <div className="text-sm font-medium text-gray-900 dark:text-white truncate">{user.name}</div>
-                                        <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">{user.email}</div>
-                                        <div className="sm:hidden mt-1 flex gap-2">
-                                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${getRoleColor(user.role)}`}>
-                                            {user.role}
-                                          </span>
-                                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(user.status || 'active')}`}>
-                                            {user.status || 'active'}
-                                          </span>
+                                      <Link to={user.id ? `/profile/${user.id}` : '#'} className="flex items-center group">
+                                        <img
+                                          src={user.avatarUrl || '/default-avatar.png'}
+                                          alt={user.name}
+                                          className="w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover flex-shrink-0 border-2 border-transparent group-hover:border-blue-500 transition"
+                                        />
+                                        <div className="ml-2 sm:ml-4 min-w-0">
+                                          <div className="text-sm font-medium text-gray-900 dark:text-white truncate group-hover:text-blue-600 transition">{user.name}</div>
+                                          <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">{user.email}</div>
+                                          <div className="sm:hidden mt-1 flex gap-2">
+                                            <span className={`px-2 py-1 text-xs font-medium rounded-full ${getRoleColor(user.role)}`}>
+                                              {user.role}
+                                            </span>
+                                            <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(user.status || 'active')}`}>
+                                              {user.status || 'active'}
+                                            </span>
+                                          </div>
                                         </div>
-                                      </div>
+                                      </Link>
                                     </div>
                                   </td>
                                   <td className="hidden sm:table-cell px-6 py-4 whitespace-nowrap">
