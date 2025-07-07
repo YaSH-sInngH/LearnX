@@ -483,15 +483,17 @@
         order: [['updatedAt', 'DESC']]
       });
 
-      const tracks = enrollments.map(enrollment => ({
-        ...enrollment.track.toJSON(),
-        enrollment: {
-          progress: enrollment.progress,
-          completed: enrollment.completed,
-          lastAccessed: enrollment.lastAccessed,
-          completedModules: enrollment.completedModules
-        }
-      }));
+      const tracks = enrollments
+        .filter(enrollment => enrollment.track !== null) // Filter out enrollments with null tracks
+        .map(enrollment => ({
+          ...enrollment.track.toJSON(),
+          enrollment: {
+            progress: enrollment.progress,
+            completed: enrollment.completed,
+            lastAccessed: enrollment.lastAccessed,
+            completedModules: enrollment.completedModules
+          }
+        }));
 
       res.json(tracks);
     } catch (error) {
