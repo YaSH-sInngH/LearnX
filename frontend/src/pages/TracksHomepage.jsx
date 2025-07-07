@@ -3,6 +3,7 @@ import { searchTracks } from '../api/tracks';
 import TrackCard from '../components/TrackCard';
 import FilterSidebar from '../components/FilterSidebar';
 import { toast } from 'react-toastify';
+import { Search, Filter, Star, Clock, Users, BookOpen, Zap, TrendingUp, Calendar, Award } from 'lucide-react';
 
 export default function TracksHomepage() {
   const [tracks, setTracks] = useState([]);
@@ -165,34 +166,52 @@ export default function TracksHomepage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
+      <div className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-white rounded-full animate-pulse"></div>
+          <div className="absolute top-40 right-32 w-20 h-20 bg-white rounded-full animate-pulse animation-delay-300"></div>
+          <div className="absolute bottom-32 left-1/3 w-24 h-24 bg-white rounded-full animate-pulse animation-delay-700"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
           <div className="text-center">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 leading-tight">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6 border border-white/20">
+              <Zap className="h-4 w-4 text-yellow-300" />
+              <span className="text-sm font-medium">✨ New tracks added weekly</span>
+            </div>
+            
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
               Discover Amazing Learning Tracks
             </h1>
-            <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-blue-100 px-4 sm:px-0">
+            <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-10 text-blue-100 px-4 sm:px-0 max-w-3xl mx-auto leading-relaxed">
               Master new skills with expert-led courses and hands-on projects
             </p>
             
-            {/* Search Bar */}
-            <form onSubmit={handleSearch} className="max-w-2xl mx-auto px-4 sm:px-0">
-              <div className="flex flex-col sm:flex-row">
-                <input
-                  type="text"
-                  placeholder="Search for tracks, skills, or creators..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 px-4 py-3 rounded-t-lg sm:rounded-l-lg sm:rounded-tr-none text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:placeholder-gray-400 text-sm sm:text-base"
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-blue-700 hover:bg-blue-800 rounded-b-lg sm:rounded-r-lg sm:rounded-bl-none transition-colors text-sm sm:text-base font-medium"
-                >
-                  Search
-                </button>
+            {/* Enhanced Search Bar */}
+            <div className="max-w-3xl mx-auto px-4 sm:px-0">
+              <div className="relative">
+                <div className="flex flex-col sm:flex-row bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-2 shadow-2xl">
+                  <div className="flex-1 relative">
+                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Search for tracks, skills, or creators..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-12 pr-4 py-4 rounded-xl sm:rounded-l-xl sm:rounded-r-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base font-medium shadow-lg"
+                    />
+                  </div>
+                  <button
+                    onClick={handleSearch}
+                    className="mt-2 sm:mt-0 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl sm:rounded-r-xl sm:rounded-l-none transition-all duration-300 text-sm sm:text-base font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2"
+                  >
+                    <Search className="h-5 w-5" />
+                    Search
+                  </button>
+                </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>

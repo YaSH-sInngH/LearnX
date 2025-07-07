@@ -128,7 +128,7 @@ export default function DiscussionPanel({ trackId, moduleId }) {
           <button onClick={() => setEditingId(null)} className="text-gray-600 dark:text-gray-300">Cancel</button>
         </div>
       ) : (
-        <div className="ml-8 text-gray-800 dark:text-gray-200 text-sm bg-gray-100 dark:bg-gray-800 rounded-lg p-3 mb-2 flex flex-col">
+        <div className="ml-8 text-gray-800 dark:text-gray-200 text-sm bg-gray-200 dark:bg-gray-800 rounded-lg p-3 mb-2 flex flex-col">
          
           <span>{msg.content}</span>
           {msg.attachments && msg.attachments.length > 0 && (
@@ -189,29 +189,51 @@ export default function DiscussionPanel({ trackId, moduleId }) {
   const tree = buildTree(messages);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-2 sm:p-4">
-      <h3 className="font-semibold mb-2 text-sm sm:text-base">Discussion</h3>
-      <div className="border rounded bg-gray-50 dark:bg-gray-900 p-2 max-h-48 sm:max-h-64 overflow-y-auto mb-4 dark:border-gray-700">
-        {messages.length === 0 && <div className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">No messages yet. Start the discussion!</div>}
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-3 sm:p-6 backdrop-blur-sm">
+      <div className="flex items-center mb-4">
+        <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full mr-3"></div>
+        <h3 className="font-bold text-gray-800 dark:text-white mb-0 text-sm sm:text-lg tracking-tight">Discussion</h3>
+      </div>
+      
+      <div className="border border-gray-200 dark:border-gray-600 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-3 sm:p-4 max-h-48 sm:max-h-64 overflow-y-auto mb-6 shadow-inner">
+        {messages.length === 0 && (
+          <div className="text-center py-8">
+            <div className="w-12 h-12 mx-auto mb-3 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.959 8.959 0 01-4.906-1.471L3 21l2.471-5.094A8.959 8.959 0 013 12c0-4.418 3.582-8 8-8s8 3.582 8 8z" />
+              </svg>
+            </div>
+            <div className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm font-medium">No messages yet. Start the discussion!</div>
+          </div>
+        )}
         {renderMessages(tree)}
         <div ref={messagesEndRef} />
       </div>
+      
       {/* Main input for new message (not a reply) */}
       {!replyTo && (
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-end space-y-2 sm:space-y-0 sm:space-x-2">
-          <textarea
-            value={newMsg}
-            onChange={e => setNewMsg(e.target.value)}
-            placeholder="Add a message..."
-            className="w-full border rounded p-2 dark:bg-gray-900 text-sm sm:text-base"
-            rows={2}
-          />
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-end space-y-3 sm:space-y-0 sm:space-x-3">
+          <div className="flex-1 relative">
+            <textarea
+              value={newMsg}
+              onChange={e => setNewMsg(e.target.value)}
+              placeholder="Add a message..."
+              className="w-full border-2 border-gray-200 dark:border-gray-600 rounded-xl p-3 sm:p-4 dark:bg-gray-900 text-sm sm:text-base resize-none focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-800 focus:outline-none transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-500"
+              rows={2}
+            />
+            <div className="absolute bottom-2 right-2 text-xs text-gray-400 dark:text-gray-500">
+              {newMsg.length}/500
+            </div>
+          </div>
+          
           <div className="flex items-center space-x-2 sm:space-x-0 sm:flex-col sm:space-y-2 lg:flex-row lg:space-y-0 lg:space-x-2">
-            <label className="flex items-center cursor-pointer gap-1 sm:gap-2 px-2 sm:px-3 py-2 rounded hover:bg-blue-50 dark:hover:bg-blue-900 transition flex-1 sm:flex-none justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <label className="group flex items-center cursor-pointer gap-1 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/50 transition-all duration-200 flex-1 sm:flex-none justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-blue-400 dark:hover:border-blue-500">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l7.072-7.072a4 4 0 10-5.656-5.656l-8.486 8.486a6 6 0 108.486 8.486l1.414-1.414" />
               </svg>
-              <span className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 truncate max-w-20 sm:max-w-none">{attachment ? attachment.name : "Attach file"}</span>
+              <span className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 truncate max-w-20 sm:max-w-none font-medium">
+                {attachment ? attachment.name : "Attach file"}
+              </span>
               <input
                 type="file"
                 onChange={handleAttachmentChange}
@@ -219,12 +241,30 @@ export default function DiscussionPanel({ trackId, moduleId }) {
                 id="discussion-attachment"
               />
             </label>
+            
             <button
               onClick={handleSend}
-              className="bg-blue-600 dark:bg-blue-400 text-white px-3 sm:px-4 py-1 sm:py-2 rounded text-xs sm:text-sm flex-1 sm:flex-none whitespace-nowrap"
+              className="group bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl text-xs sm:text-sm flex-1 sm:flex-none whitespace-nowrap font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               disabled={uploading}
             >
-              {uploading ? 'Uploading...' : 'Send'}
+              <span className="flex items-center gap-2">
+                {uploading ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Uploading...
+                  </>
+                ) : (
+                  <>
+                    Send
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                  </>
+                )}
+              </span>
             </button>
           </div>
         </div>
