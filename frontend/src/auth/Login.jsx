@@ -11,9 +11,16 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const newErrors = {};
+    if (!email) newErrors.email = 'Email is required.';
+    else if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = 'Please enter a valid email address (e.g., user@example.com).';
+    if (!password) newErrors.password = 'Password is required.';
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
     setIsLoading(true);
     
     try {
@@ -71,12 +78,17 @@ export default function Login() {
                   id="email"
                   type="email"
                   value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className="input pl-9 sm:pl-10 text-sm sm:text-base h-10 sm:h-12"
+                  onChange={e => {
+                    setEmail(e.target.value);
+                    if (errors.email) setErrors(prev => ({ ...prev, email: '' }));
+                  }}
+                  className={`input pl-9 sm:pl-10 text-sm sm:text-base h-10 sm:h-12 ${errors.email ? 'border-danger-500 focus:ring-danger-500' : ''}`}
                   placeholder="Enter your email"
-                  required
                   disabled={isLoading}
                 />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-danger-600 dark:text-danger-400">{errors.email}</p>
+                )}
               </div>
             </div>
 
@@ -94,12 +106,17 @@ export default function Login() {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  className="input pl-9 sm:pl-10 pr-9 sm:pr-10 text-sm sm:text-base h-10 sm:h-12"
+                  onChange={e => {
+                    setPassword(e.target.value);
+                    if (errors.password) setErrors(prev => ({ ...prev, password: '' }));
+                  }}
+                  className={`input pl-9 sm:pl-10 pr-9 sm:pr-10 text-sm sm:text-base h-10 sm:h-12 ${errors.password ? 'border-danger-500 focus:ring-danger-500' : ''}`}
                   placeholder="Enter your password"
-                  required
                   disabled={isLoading}
                 />
+                {errors.password && (
+                  <p className="mt-1 text-sm text-danger-600 dark:text-danger-400">{errors.password}</p>
+                )}
                 <button
                   type="button"
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"

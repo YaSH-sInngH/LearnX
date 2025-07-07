@@ -299,7 +299,7 @@ export default function TrackModules() {
                     type="text"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                    className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm sm:text-base bg-gray-200 dark:bg-gray-800"
                     placeholder="Enter module title"
                     required
                   />
@@ -312,7 +312,7 @@ export default function TrackModules() {
                     type="number"
                     value={formData.duration}
                     onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                    className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                    className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm sm:text-base bg-gray-200 dark:bg-gray-800"
                     placeholder="e.g., 15"
                     min="1"
                   />
@@ -327,7 +327,7 @@ export default function TrackModules() {
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   rows={4}
-                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm sm:text-base bg-gray-200 dark:bg-gray-800"
                   placeholder="Additional notes or content for this module"
                 />
                 <button
@@ -374,9 +374,9 @@ export default function TrackModules() {
                   type="file"
                   accept="video/*"
                   onChange={(e) => setFormData({ ...formData, video: e.target.files[0] })}
-                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-sm sm:text-base bg-gray-200 dark:bg-gray-800"
                 />
-                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1 bg-gray-200 dark:bg-gray-800 p-2 rounded-lg">
                   Supported formats: MP4, WebM, MOV. Max size: 500MB
                 </p>
               </div>

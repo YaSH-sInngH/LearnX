@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useState, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './auth/AuthProvider';
 import Login from './auth/Login';
@@ -18,6 +18,11 @@ import AdminDashboard from './pages/AdminDashboard';
 import TrackModules from './pages/TrackModules';
 import Navbar from './components/NavbarFixed';
 import PublicProfile from './pages/PublicProfile';
+import GlobalLoader from './components/GlobalLoader';
+
+// Global loading context
+export const GlobalLoadingContext = createContext({ show: false, setShow: () => {} });
+export function useGlobalLoading() { return useContext(GlobalLoadingContext); }
 
 function Unauthorized() {
   return <div className="p-8 text-red-600">Unauthorized Access</div>;
@@ -79,48 +84,52 @@ function AppLayout({ children }) {
 }
 
 function App() {
+  const [globalLoading, setGlobalLoading] = useState(false);
   return (
       <Router>
-        <AppLayout>
-          <Routes>
-            <Route path="/" element={<RootRedirect />} />
-            <Route path="/dashboard" element={<DashboardRedirect />} />
-            <Route path="/admin" element={<AdminRedirect />} />
+        <GlobalLoadingContext.Provider value={{ show: globalLoading, setShow: setGlobalLoading }}>
+          <AppLayout>
+            <Routes>
+              <Route path="/" element={<RootRedirect />} />
+              <Route path="/dashboard" element={<DashboardRedirect />} />
+              <Route path="/admin" element={<AdminRedirect />} />
 
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/verify" element={<VerifyEmail />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/unauthorized" element={<Unauthorized />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/verify" element={<VerifyEmail />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/unauthorized" element={<Unauthorized />} />
 
-            {/* Protected routes by role */}
-            <Route element={<ProtectedRoute roles={["Learner"]} />}>
-              <Route path="/dashboard/learner" element={<LearnerDashboard />} />
-              <Route path="/tracks" element={<TracksHomepage />} />
-              <Route path="/tracks/:trackId" element={<TrackDetail />} />
-              <Route path="/module/:moduleId" element={<ModuleViewer />} />
-            </Route>
-            <Route element={<ProtectedRoute roles={["Creator"]} />}>
-              <Route path="/dashboard/creator" element={<CreatorDashboard />} />
-              <Route path="/dashboard/creator/tracks" element={<CreatorTracks />} />
-              <Route path="/creator/tracks" element={<CreatorTracks />} />
-              <Route path="/dashboard/creator/tracks/:trackId/modules" element={<TrackModules />} />
-              <Route path="/creator/tracks/:trackId/modules" element={<TrackModules />} />
-              <Route path="/tracks" element={<TracksHomepage />} />
-              <Route path="/tracks/:trackId" element={<TrackDetail />} />
-              <Route path="/module/:moduleId" element={<ModuleViewer />} />
-            </Route>
-            <Route element={<ProtectedRoute roles={["Admin"]} />}>
-              <Route path="/dashboard/admin" element={<AdminDashboard />} />
-            </Route>
+              {/* Protected routes by role */}
+              <Route element={<ProtectedRoute roles={["Learner"]} />}>
+                <Route path="/dashboard/learner" element={<LearnerDashboard />} />
+                <Route path="/tracks" element={<TracksHomepage />} />
+                <Route path="/tracks/:trackId" element={<TrackDetail />} />
+                <Route path="/module/:moduleId" element={<ModuleViewer />} />
+              </Route>
+              <Route element={<ProtectedRoute roles={["Creator"]} />}>
+                <Route path="/dashboard/creator" element={<CreatorDashboard />} />
+                <Route path="/dashboard/creator/tracks" element={<CreatorTracks />} />
+                <Route path="/creator/tracks" element={<CreatorTracks />} />
+                <Route path="/dashboard/creator/tracks/:trackId/modules" element={<TrackModules />} />
+                <Route path="/creator/tracks/:trackId/modules" element={<TrackModules />} />
+                <Route path="/tracks" element={<TracksHomepage />} />
+                <Route path="/tracks/:trackId" element={<TrackDetail />} />
+                <Route path="/module/:moduleId" element={<ModuleViewer />} />
+              </Route>
+              <Route element={<ProtectedRoute roles={["Admin"]} />}>
+                <Route path="/dashboard/admin" element={<AdminDashboard />} />
+              </Route>
 
-            {/* Default route */}
-            <Route path="/profile/:userId" element={<PublicProfile />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </AppLayout>
-        <GlobalToaster />
+              {/* Default route */}
+              <Route path="/profile/:userId" element={<PublicProfile />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+            <GlobalLoader show={globalLoading} />
+          </AppLayout>
+          <GlobalToaster />
+        </GlobalLoadingContext.Provider>
       </Router>
   );
 }

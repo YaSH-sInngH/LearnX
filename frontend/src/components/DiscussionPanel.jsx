@@ -124,7 +124,7 @@ export default function DiscussionPanel({ trackId, moduleId }) {
           <textarea
             value={editContent}
             onChange={e => setEditContent(e.target.value)}
-            className="w-full border rounded p-2"
+            className="w-full border rounded p-2 dark:bg-gray-800 dark:text-white"
             rows={2}
           />
           <button onClick={() => handleEdit(msg.id)} className="text-blue-600 mr-2">Save</button>

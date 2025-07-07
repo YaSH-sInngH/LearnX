@@ -84,7 +84,7 @@ export default function Sidebar({ profile, onProfileUpdate }) {
   };
 
   return (
-    <aside className="w-full max-w-[90vw] sm:w-64 md:w-72 lg:w-80 h-full flex flex-col">
+    <aside className="relative z-50 min-h-screen w-full max-w-[90vw] sm:w-64 md:w-72 lg:w-80 flex flex-col bg-white dark:bg-gray-800">
       {/* Profile Card */}  
       <div className="p-2 sm:p-4 border-b border-white/20 dark:border-secondary-700/20 mt-116 sm:mt-0 max-w-xs mx-auto">
         <ProfileCard 
@@ -95,7 +95,7 @@ export default function Sidebar({ profile, onProfileUpdate }) {
       </div>
   
       {/* Navigation */}
-      <nav className="flex-1 p-4 sm:p-6">
+      <nav className="flex-1 p-4 sm:p-6 overflow-y-auto">
         <div className="space-y-2">
           <h3 className="text-xs font-semibold text-secondary-500 dark:text-secondary-400 uppercase tracking-wider mb-4">
             Navigation

@@ -241,7 +241,7 @@ export default function FilterSidebar({ filters, onFilterChange, categories, cre
               <select
                 value={filters.creatorId || ''}
                 onChange={(e) => handleCreatorChange(e.target.value || null)}
-                className="w-full p-4 border border-gray-200 dark:border-gray-600 rounded-xl text-sm dark:text-white bg-gradient-to-r from-white to-gray-50 dark:from-gray-700 dark:to-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 shadow-md hover:shadow-lg appearance-none cursor-pointer"
+                className="w-full p-4 border border-gray-200 dark:border-gray-600 rounded-xl text-sm dark:text-white bg-gradient-to-r from-white to-gray-50 dark:from-gray-700 dark:to-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 shadow-md hover:shadow-lg appearance-none cursor-pointer dark:bg-gray-800"
               >
                 <option value="">All Creators</option>
                 {creators.map((creator) => (

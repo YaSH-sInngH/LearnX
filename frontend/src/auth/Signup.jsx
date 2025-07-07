@@ -19,13 +19,13 @@ export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
-  const [passwordStrength, setPasswordStrength] = useState({ score: 0, label: '', color: '', suggestions: [] });
+  const [passwordStrength, setPasswordStrength] = useState({ score: 0, label: '', color: '', suggestions: [], meter: 0 });
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    // Clear error when user starts typing
+    // Clear error for the field being changed
     if (errors[e.target.name]) {
-      setErrors({ ...errors, [e.target.name]: '' });
+      setErrors(prev => ({ ...prev, [e.target.name]: '' }));
     }
     // Password strength feedback
     if (e.target.name === 'password') {
@@ -39,72 +39,74 @@ export default function Signup() {
     let label = 'Weak';
     let color = 'red';
 
-    // Word count
-    const words = password.trim().split(/\s+/).filter(Boolean);
-    if (words.length > 4) {
-      score += 2;
-    } else {
-      suggestions.push('Use more than 4 words');
-    }
+    // Criteria
+    const hasUpper = /[A-Z]/.test(password);
+    const hasLower = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecial = /[^A-Za-z0-9]/.test(password);
+    const isLongEnough = password.length >= 8;
 
-    // Length
-    if (password.length >= 12) score += 2;
-    else if (password.length >= 8) score += 1;
-    else suggestions.push('Use at least 8 characters');
+    if (!isLongEnough) suggestions.push('Use at least 8 characters');
+    if (!hasUpper) suggestions.push('Add uppercase letters');
+    if (!hasLower) suggestions.push('Add lowercase letters');
+    if (!hasNumber) suggestions.push('Add numbers');
+    if (!hasSpecial) suggestions.push('Add special characters');
 
-    // Character variety
-    if (/[A-Z]/.test(password)) score += 1;
-    else suggestions.push('Add uppercase letters');
-    if (/[a-z]/.test(password)) score += 1;
-    else suggestions.push('Add lowercase letters');
-    if (/[0-9]/.test(password)) score += 1;
-    else suggestions.push('Add numbers');
-    if (/[^A-Za-z0-9\s]/.test(password)) score += 1;
-    else suggestions.push('Add special characters');
+    // Scoring
+    if (isLongEnough) score += 1;
+    if (hasUpper) score += 1;
+    if (hasLower) score += 1;
+    if (hasNumber) score += 1;
+    if (hasSpecial) score += 1;
 
     // Label and color
-    if (score >= 6) {
+    if (score === 5) {
       label = 'Strong';
       color = 'green';
-    } else if (score >= 4) {
+    } else if (score >= 3) {
       label = 'Medium';
       color = 'orange';
     }
 
-    return { score, label, color, suggestions };
+    // Meter: full if strong, else proportional
+    const meter = score === 5 ? 100 : (score / 5) * 100;
+
+    return { score, label, color, suggestions, meter };
   };
 
   const validateForm = () => {
     const newErrors = {};
 
     if (!form.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = 'Name is required.';
     } else if (form.name.length < 2) {
-      newErrors.name = 'Name must be at least 2 characters';
+      newErrors.name = 'Name must be at least 2 characters.';
     }
 
     if (!form.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = 'Email is required.';
     } else if (!/\S+@\S+\.\S+/.test(form.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = 'Please enter a valid email address (e.g., user@example.com).';
     }
 
     // Password validation
     if (!form.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = 'Password is required.';
     } else if (form.password.length <= 4) {
-      newErrors.password = 'Password must be longer than 4 characters';
+      newErrors.password = 'Password must be longer than 4 characters.';
     } else if (passwordStrength.score < 4) {
       newErrors.password = 'Password is too weak. Try making it longer and more complex.';
     }
 
-    if (form.password !== form.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+    if (!form.confirmPassword) {
+      newErrors.confirmPassword = 'Please confirm your password.';
+    } else if (form.password !== form.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match.';
     }
 
     // Validate admin invitation code
     if (form.role === 'Admin' && !form.adminInvitationCode.trim()) {
-      newErrors.adminInvitationCode = 'Admin invitation code is required';
+      newErrors.adminInvitationCode = 'Admin invitation code is required.';
     }
 
     setErrors(newErrors);
@@ -179,7 +181,6 @@ export default function Signup() {
                   onChange={handleChange}
                   className={`input pl-10 ${errors.name ? 'border-danger-500 focus:ring-danger-500' : ''}`}
                   placeholder="Enter your full name"
-                  required
                   disabled={isLoading}
                 />
               </div>
@@ -207,7 +208,6 @@ export default function Signup() {
                   onChange={handleChange}
                   className={`input pl-10 ${errors.email ? 'border-danger-500 focus:ring-danger-500' : ''}`}
                   placeholder="Enter your email"
-                  required
                   disabled={isLoading}
                 />
               </div>
@@ -235,7 +235,6 @@ export default function Signup() {
                   onChange={handleChange}
                   className={`input pl-10 pr-10 ${errors.password ? 'border-danger-500 focus:ring-danger-500' : ''}`}
                   placeholder="Create a password"
-                  required
                   disabled={isLoading}
                 />
                 <button
@@ -256,24 +255,26 @@ export default function Signup() {
                 </button>
               </div>
               {/* Password Strength Meter and Suggestions */}
-              <div className="mt-2">
-                <div className="h-2 rounded bg-gray-200 dark:bg-gray-700">
-                  <div
-                    style={{ width: `${(passwordStrength.score / 7) * 100}%`, backgroundColor: passwordStrength.color }}
-                    className="h-2 rounded transition-all duration-300"
-                  ></div>
+              {form.password && (
+                <div className="mt-2">
+                  <div className="h-2 rounded bg-gray-200 dark:bg-gray-700">
+                    <div
+                      style={{ width: `${passwordStrength.meter || 0}%`, backgroundColor: passwordStrength.color }}
+                      className="h-2 rounded transition-all duration-300"
+                    ></div>
+                  </div>
+                  <div className="flex items-center mt-1">
+                    <span className={`text-xs font-semibold mr-2`} style={{ color: passwordStrength.color }}>{passwordStrength.label} password</span>
+                    {form.password && passwordStrength.suggestions.length > 0 && (
+                      <ul className="ml-2 text-xs text-gray-500 dark:text-gray-400 list-disc list-inside">
+                        {passwordStrength.suggestions.map((s, i) => (
+                          <li key={i}>{s}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 </div>
-                <div className="flex items-center mt-1">
-                  <span className={`text-xs font-semibold mr-2`} style={{ color: passwordStrength.color }}>{passwordStrength.label} password</span>
-                  {form.password && passwordStrength.suggestions.length > 0 && (
-                    <ul className="ml-2 text-xs text-gray-500 dark:text-gray-400 list-disc list-inside">
-                      {passwordStrength.suggestions.map((s, i) => (
-                        <li key={i}>{s}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </div>
+              )}
               {errors.password && (
                 <p className="mt-1 text-sm text-danger-600 dark:text-danger-400">{errors.password}</p>
               )}
@@ -298,7 +299,6 @@ export default function Signup() {
                   onChange={handleChange}
                   className={`input pl-10 pr-10 ${errors.confirmPassword ? 'border-danger-500 focus:ring-danger-500' : ''}`}
                   placeholder="Confirm your password"
-                  required
                   disabled={isLoading}
                 />
                 <button
@@ -328,7 +328,7 @@ export default function Signup() {
               <label htmlFor="role" className="block text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-2">
                 I want to join as
               </label>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="flex flex-col gap-3 sm:grid sm:grid-cols-3">
                 <label className={`relative cursor-pointer rounded-lg border-2 p-4 transition-all duration-200 ${
                   form.role === 'Learner' 
                     ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/30' 
@@ -444,7 +444,6 @@ export default function Signup() {
                     onChange={handleChange}
                     className={`input pl-10 ${errors.adminInvitationCode ? 'border-danger-500 focus:ring-danger-500' : ''}`}
                     placeholder="Enter admin invitation code"
-                    required
                     disabled={isLoading}
                   />
                 </div>

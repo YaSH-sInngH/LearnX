@@ -23,7 +23,11 @@ export default function DashboardLayout({ profile, onProfileUpdate, children }) 
       )}
       
       {/* Enhanced Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-64 max-w-[90vw] sm:w-72 md:w-80 glass border-r border-white/30 dark:border-secondary-600/30 shadow-2xl shadow-primary-500/5 dark:shadow-primary-400/5 transform ${sidebarOpen ? 'translate-x-0 scale-100' : '-translate-x-full scale-95'} transition-all duration-300 ease-out md:relative md:translate-x-0 md:scale-100 md:flex md:flex-col`}>
+      <div className={`z-50 w-64 max-w-[90vw] sm:w-72 md:w-80 glass border-r border-white/30 dark:border-secondary-600/30 shadow-2xl shadow-primary-500/5 dark:shadow-primary-400/5
+        fixed inset-y-0 left-0 transition-all duration-300 ease-out
+        ${sidebarOpen ? 'translate-x-0 scale-100' : '-translate-x-full scale-95'}
+        md:relative md:inset-y-auto md:left-auto md:fixed-none md:translate-x-0 md:scale-100 md:flex md:flex-col`}
+      >
         {/* Sidebar glow effect */}
         <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 to-secondary-500/5 dark:from-primary-400/5 dark:to-secondary-400/5 rounded-lg blur-xl"></div>
         
