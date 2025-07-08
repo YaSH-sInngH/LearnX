@@ -99,7 +99,7 @@ export const login = async (req, res) => {
 
     if (!user.isVerified) return res.status(401).json({ message: 'Please verify your email.' });
 
-    const token = generateToken({ id: user.id, role: user.role });
+    const token = generateToken({ id: user.id, role: user.role, name: user.name });
     const { password: _password, ...userWithoutPassword } = user.toJSON();
     res.status(200).json({ token, user: userWithoutPassword });
   } catch (err) {
