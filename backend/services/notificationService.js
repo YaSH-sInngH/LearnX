@@ -139,7 +139,7 @@ export const notifyNewEnrollment = async (creatorId, trackTitle, learnerName) =>
     await createNotification(creatorId, {
       type: 'message',
       title: 'New Enrollment',
-      message: `${learnerName} enrolled in your track "${trackTitle}".`,
+      message: `Someone enrolled in your track "${trackTitle}".`,
       metadata: { trackTitle, learnerName }
     });
   } catch (error) {
